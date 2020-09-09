@@ -1,2 +1,5 @@
-# cosc481w-581-2020-fall-stattracker
-cosc481w-581-2020-fall-stattracker created by GitHub Classroom
+Legends of Runeterra StatTracker
+A program for keeping track of the popularity of cards.
+
+API
+https://developer.riotgames.com/docs/lor
