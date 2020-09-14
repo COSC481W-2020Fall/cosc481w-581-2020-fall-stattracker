@@ -1,6 +1,12 @@
-<form>
-  <label for="fname">First name:</label><br>
-  <input type="text" id="fname" name="fname"><br>
-  <label for="lname">Last name:</label><br>
-  <input type="text" id="lname" name="lname">
-</form>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>deckbuilder</title>
+	</head>
+<body>
+	<form method="POST">
+		<button type="submit" name="Home" value="Home">Home</button>
+	</form>
+	{{ data|safe }}
+</body>
+</html>
