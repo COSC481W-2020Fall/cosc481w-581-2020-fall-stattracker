@@ -75,3 +75,7 @@ A program for keeping track of the popularity of cards.
 	- win/loss percentage
 
 	- Common cards used together
+
+<h2 align="center">Use Case Diagram</h2>
+
+![use case diagram](use-case-diagram.png)
