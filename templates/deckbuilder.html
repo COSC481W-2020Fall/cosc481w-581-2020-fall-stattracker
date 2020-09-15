@@ -4,9 +4,40 @@
 		<title>deckbuilder</title>
 	</head>
 <body>
+	<!-- Navbar -->
 	<form method="POST">
 		<button type="submit" name="Home" value="Home">Home</button>
 	</form>
-	{{ data|safe }}
+
+	<!-- For naming decks -->
+	<form method="POST">
+		<h2>Name deck</h2>
+    	<input type="text" name="deckName">
+    	<input type="submit">
+	</form>
+
+	<!-- For adding cards to deck -->
+	<form method="POST">
+		<h2>Add cards</h2>
+    	<input type="text" name="cardID">
+    	<input type="submit">
+	</form>
+
+	<!-- To display available decks -->
+	<div align="center">
+		{{ decks }}
+	</div>
+
+	<!-- To display all cards on left of screen and current deck on right -->
+	<div class="container">
+		<div style="width: 50%; height: 100px; float: left">
+			<h1>All cards</h1>
+			{{ data|safe }}
+		</div>
+		<div style="margin-left: 50%; height: 100px">
+			<h1>Current deck</h1>
+			{{ deck|safe }}
+		</div>
+	</div>
 </body>
 </html>
