@@ -27,14 +27,17 @@ def deck_builder():
 			deck = pd.DataFrame()
 			path = f'decks/{deckName}.csv'
 			deck.to_csv(path)
-			decks.append(path)
+			if path not in decks:
+				decks.append(path)
 
 		if request.form.get('cardID'): ## Receive card id to add to deck
+			deckName = 'mydeck'
+			# print(request.form['selectDeck'])
 			cardID = request.form['cardID']
 			row = dataFrame.loc[dataFrame['cardCode'] == cardID]
 
 			## Write row to specified deck database
-			path = f'decks/mydeck.csv'
+			path = f'decks/{deckName}.csv'
 			deck = pd.read_csv(path)
 			deck = deck.append(row, ignore_index=True)
 			deck.to_csv(path, index=False)
@@ -46,7 +49,11 @@ def deck_builder():
 			decks=decks)
 
 	elif request.method == 'GET': ## If initial reqeust of page, display it
-		return render_template('deckbuilder.html', data=html_code, decks=decks)
+		return render_template(
+			'deckbuilder.html',
+			data=html_code,
+			deck=None,
+			decks=decks)
 
 if __name__ == '__main__':
 	app.run(debug=True)
