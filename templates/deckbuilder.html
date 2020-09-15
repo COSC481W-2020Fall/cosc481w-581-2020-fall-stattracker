@@ -9,9 +9,10 @@
 		<button type="submit" name="Home" value="Home">Home</button>
 	</form>
 
-	{{ decks }}
 	<form method="POST">
-		<div align="center">
+		<div align="right">
+			<h2>Available Decks:</h2>
+			{{ decks }}
 			<h2>New Deck</h2>
 	    	<input type="text" name="deckName">
 	    	<button type="submit" class="btn btn-default">Create</button>
