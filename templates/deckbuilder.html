@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>deckbuilder</title>
+		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	</head>
 <body style="background-color:#ADD8E6;text-align:center">
 	<!-- Navbar -->
@@ -17,11 +18,17 @@
 	    	<input type="text" name="deckName">
 	    	<button type="submit" class="btn btn-default">Create</button>
 			<h2>Select Deck</h2>
-			<select name="selectDeck" class="selectpicker form-control">
+			<select id="selectDeck" name="selectDeck" class="selectpicker form-control">
 				{% for item in decks %}
 				<option value="{{ item }}">{{ item }}</option>
 				{% endfor %}
 			</select>
+
+      <script>
+				var lastVal = $('#selectDeck option:last-child').val();
+				$('#selectDeck').val(lastVal);
+			</script>
+
 			<button type="submit" class="btn btn-default">Select</button>
 
 			<h2>Add Cards</h2>
@@ -33,7 +40,7 @@
 	<form method="POST">
 		<div align="right">
 			<h2>Delete Deck</h2>
-			<select name="deleteDeck" class="selectpicker form-control">
+			<select id="deleteDeck" name="deleteDeck" class="selectpicker form-control">
 				{% for item in decks %}
 				<option value="{{ item }}">{{ item }}</option>
 				{% endfor %}
@@ -41,6 +48,11 @@
 			<button type="submit" class="btn btn-default">Delete</button>
 		</div>
 	</form>
+
+  <script>
+    var lastVal = $('#deleteDeck option:last-child').val();
+    $('#deleteDeck').val(lastVal);
+  </script>
 
 	<!-- To display all cards on left of screen and current deck on right -->
 	<div class="container">
