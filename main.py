@@ -42,7 +42,8 @@ def deck_builder():
 		if request.form.get('deleteDeck'):
 			deckName = request.form['deleteDeck']
 			os.remove(deckName)
-			decks.remove(deckName)
+			if deckName in decks:
+				decks.remove(deckName)
 			deckName = None
 			activeDeck = None
 
