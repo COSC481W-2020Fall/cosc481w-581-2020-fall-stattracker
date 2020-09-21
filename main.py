@@ -19,12 +19,12 @@ def Home():
 	else:
 		return render_template("Home.html") 
 
-
+decks = glob.glob('decks/*.csv')
 @app.route('/deckbuilder', methods=['GET','POST'])
 def deck_builder():
 	dataFrame = get_dataframe()
 	cardList = dataFrame.to_html()
-	decks = glob.glob('decks/*.csv')
+	print(decks)
 
 	if request.method == 'POST': ## Gets some input from page
 
