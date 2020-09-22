@@ -20,11 +20,11 @@ def Home():
 		return render_template("Home.html") 
 
 decks = glob.glob('decks/*.csv')
+dataFrame = get_dataframe()
+cardList = dataFrame.to_html()
+
 @app.route('/deckbuilder', methods=['GET','POST'])
 def deck_builder():
-	dataFrame = get_dataframe()
-	cardList = dataFrame.to_html()
-	print(decks)
 
 	if request.method == 'POST': ## Gets some input from page
 
@@ -37,8 +37,8 @@ def deck_builder():
 			## Save deck and add to list of available decks
 			activeDeck = pd.DataFrame()
 			path = f'decks/{deckName}.csv'
+			activeDeck.to_csv(path)
 			if path not in decks:
-				activeDeck.to_csv(path)
 				decks.append(path)
 				activeDeck = activeDeck.to_html()
 			elif path in decks or not deckName:
@@ -67,7 +67,22 @@ def deck_builder():
 			deckName = request.form['selectDeck']
 			## Write row to specified deck database
 			activeDeck = pd.read_csv(deckName)
-			activeDeck = activeDeck.append(row, ignore_index=True)
+			numChampions = 0
+			if len(activeDeck) > 0:
+				counts = activeDeck['cardCode'].value_counts()
+				rarity = activeDeck['rarity'].value_counts()
+				if 'Champion' in rarity:
+					numChampions = rarity['Champion']
+				if cardID in counts:
+					numCopies = counts[cardID]
+				else:
+					numCopies = 0
+			else:
+				numCopies = 0
+
+			if numCopies < 3 and len(activeDeck) < 40 and numChampions < 6:
+				activeDeck = activeDeck.append(row, ignore_index=True)
+				
 			activeDeck.to_csv(deckName, index=False)
 			activeDeck = activeDeck.to_html()
 
