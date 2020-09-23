@@ -81,7 +81,9 @@ def deck_builder():
 			else:
 				numCopies = 0
 
-			if numCopies < 3 and len(activeDeck) < 40 and numChampions < 6:
+			if row.iloc[0]['rarity'] == 'Champion' and numCopies < 3 and numChampions < 6 and len(activeDeck) < 40:
+				activeDeck = activeDeck.append(row, ignore_index=True)
+			elif row.iloc[0]['rarity'] != 'Champion' and numCopies < 3 and len(activeDeck) < 40:
 				activeDeck = activeDeck.append(row, ignore_index=True)
 				
 			activeDeck.to_csv(deckName, index=False)
