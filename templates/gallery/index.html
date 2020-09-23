@@ -1,0 +1,71 @@
+<!doctype html>
+<head>
+	<title>Card Gallery</title>
+	<style>
+		body {
+			background-color: #add8e6;
+			width: 100%;
+		}
+		img {
+			max-width: 100%;
+		}
+		.center {
+			text-align: center;
+		}
+		.tmid { /* Center block-level elements */
+			margin: 0px auto;
+		}
+		#searchbar {
+			display: block;
+			margin: 10px;
+			width: 250px;
+		}
+	</style>
+</head>
+<body>
+	<a href="/">&lt; back</a>
+	<input type="text" id="searchbar" onkeyup="search()" placeholder="Search for a card">
+	<table id="cardlist">
+		<tr>
+			<th>Name</th>
+			<th></th>
+		</tr>
+	</table>
+	<script>
+		var jsondata = JSON.parse('{{ jsondata | tojson | safe }}');
+		console.log(jsondata);
+		var cardlist = document.getElementById('cardlist');
+		for (var i = 0; i < Object.keys(jsondata.cardCode).length; i++) {
+			var newrow = document.createElement('tr');
+			var rowname = document.createElement('td');
+			var rowlink = document.createElement('td');
+			rowname.innerHTML = jsondata.name[i];
+			rowlink.innerHTML = '<a href="/gallery/' + jsondata.cardCode[i] + '">Info</a>';
+			newrow.appendChild(rowname);
+			newrow.appendChild(rowlink);
+			cardlist.appendChild(newrow);
+		}
+		// https://www.w3schools.com/howto/howto_js_filter_table.asp
+		function search() {
+			// Declare variables
+			var input, filter, table, tr, td, i, txtValue;
+			input = document.getElementById("searchbar");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("cardlist");
+			tr = table.getElementsByTagName("tr");
+
+			// Loop through all table rows, and hide those who don't match the search query
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[0];
+				if (td) {
+					txtValue = td.textContent || td.innerText;
+					if (txtValue.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+				}
+			}
+		}
+	</script>
+</body>
