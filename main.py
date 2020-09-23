@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from utils import get_dataframe
+from gallery import g_home
 import pandas as pd
 import glob
 import os
@@ -102,6 +103,11 @@ def deck_builder():
 			cardList=cardList,
 			activeDeck=None,
 			decks=decks)
+
+@app.route('/gallery')
+@app.route('/gallery/<cardcode>')
+def gallery(cardcode = None):
+	return g_home(cardcode)
 
 if __name__ == '__main__':
 	app.run(debug=True)
