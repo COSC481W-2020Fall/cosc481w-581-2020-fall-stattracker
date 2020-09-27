@@ -1,12 +1,18 @@
 import json
 import html
 import pandas as pd
+import glob
 from flask import render_template
 from pandas.io.json import json_normalize
 
 def g_home(cardcode):
 	# get data
-	df = pd.read_json('card_data/set1-en_us.json')
+	# df = pd.read_json('card_data/set1-en_us.json')
+	filenames = glob.glob('card_data/*.json')
+	dfs = []
+	for filename in filenames:
+		dfs.append(pd.read_json(filename))
+	df = pd.concat(dfs, ignore_index=True)
 
 	if cardcode == None:
 		# limit data to these fields
