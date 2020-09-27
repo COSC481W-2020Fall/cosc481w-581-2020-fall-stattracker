@@ -79,3 +79,7 @@ A program for keeping track of the popularity of cards.
 <h2 align="center">Use Case Diagram</h2>
 
 ![use case diagram](use-case-diagram.png)
+
+<h2 align="center">Use Case Diagram (Database)</h2>
+
+![use case diagram (database)](use-case-diagram-database.png)
