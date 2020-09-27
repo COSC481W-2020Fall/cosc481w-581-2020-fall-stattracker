@@ -11,11 +11,9 @@ app = Flask(__name__)
 @app.route('/', methods =["GET","POST"])
 def Home():
 	if request.method == "POST":
-		print("Hello World")
-		if request.form.get("Deck_Builder"):
-			print("This is line 11")
+		if request.form.get("Deck_Builder"):## Sends you to the Deck Builder Page
 			return redirect("deckbuilder")
-		if request.form.get("Card_Gallery"):
+		if request.form.get("Card_Gallery"):## Sends you to the Card Gallery Page
 			return redirect("gallery")
 	else:
 		return render_template("Home.html") 
@@ -81,7 +79,7 @@ def deck_builder():
 			else:
 				numCopies = 0
 
-			if row.iloc[0]['rarity'] == 'Champion' and numCopies < 3 and numChampions < 6 and len(activeDeck) < 40:
+			if row.iloc[0]['rarity'] == 'Champion' and numCopies < 3 and numChampions < 6 and len(activeDeck) < 40: ## Makes sure the deck fits the deckbuilding requirements.
 				activeDeck = activeDeck.append(row, ignore_index=True)
 			elif row.iloc[0]['rarity'] != 'Champion' and numCopies < 3 and len(activeDeck) < 40:
 				activeDeck = activeDeck.append(row, ignore_index=True)
