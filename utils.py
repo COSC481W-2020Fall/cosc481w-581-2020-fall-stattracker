@@ -1,18 +1,20 @@
 import json
 import pandas as pd
+import glob
 
 def get_dataframe():
-	data = pd.read_json('card_data/set1-en_us.json')
+	files = glob.glob('card_data/*.json')
+
+	data = []
+	for file in files:
+		data.append(pd.read_json(file))
+
+	data = pd.concat(data)
 	data = data[['cardCode', 'name', 'region', 'attack', 'cost', 'health', 'rarity']]
+	func = lambda x: False if 'T' in x[-3:] else True
+	mask = data['cardCode'].apply(func)
+	data = data[mask]
 	return data
 	
 if __name__ == '__main__':
-	data = pd.read_json('card_data/set1-en_us.json')
-	print(data.head())
-	print(data.columns)
-	counts = data['cardCode'].value_counts()
-	print(counts)
-	if '01IO040' in counts:
-		print(True)
-	else:
-		print(False)
+	data = get_dataframe()
