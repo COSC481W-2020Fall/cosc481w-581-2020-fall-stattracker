@@ -24,15 +24,17 @@ def g_home(cardcode):
 
 	else:
 		# limit data to these fields
-		df = df[['name', 'assets', 'description', 'cardCode']]
+		df = df[['name', 'assets', 'description', 'cardCode', 'cost', 'type']]
 		# find the row that matches the cardcode parameter
 		df = df.loc[df['cardCode'] == cardcode]
 		# extract the card information
 		name = df.iloc[0]['name']
 		image = df.iloc[0].assets[0]['fullAbsolutePath']
 		description = df.iloc[0].description
+		cost = df.iloc[0]['cost']
+		cardtype = df.iloc[0]['type']
 		# render the page
-		return render_template('gallery/card.html', name=name, image=image, description=description)
+		return render_template('gallery/card.html', name=name, image=image, description=description, cost=cost, cardtype=cardtype)
 
 # https://stackoverflow.com/a/42264209/13157180
 def make_clickable(val):
