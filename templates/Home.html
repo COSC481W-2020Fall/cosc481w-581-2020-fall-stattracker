@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Home</title>
+	<title>Home</title>
 	<style type="text/css">
-		body {background-color: #ADD8E6;}
+		body{
+			background-image: url("{{ url_for('static', filename='images/Background.jpg') }}");
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: cover;
+		}
 		h2 {font-size: 40px;}
 	</style>
 	</head>
