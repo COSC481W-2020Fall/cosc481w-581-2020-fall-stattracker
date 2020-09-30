@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Home</title>
+	<title>Home</title>
 	<style>
-	body{
-	background-image: url('images/Background.jpg');
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-size: cover;
-	}
-	h2 {font-size: 40px;}
+		body {
+			background-image: url("{{ url_for('static', filename='images/Background.jpg') }}");
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: cover;
+		}
+		h2 {font-size: 40px;}
 	</style>
 	</head>
 <body>
