@@ -18,6 +18,7 @@ def get_dataframe():
 
 	## This will be changed to grab the wins and losses from database
 	data['winrate'] = 0
+	data = data.reset_index(drop=True)
 	return data
 
 # Converting json to csv file
