@@ -1,0 +1,28 @@
+body {
+	margin: 0;
+	font-family: sans-serif;
+	background-color: #ADD8E6;
+}
+
+.forms {
+	text-align: right;
+	padding-bottom: 25px;
+	padding-right: 25px;
+}
+
+.tables {
+	display: flex;
+	text-align: center;
+}
+
+.cards {
+	flex: 1;
+	padding: 1em;
+	border: solid;
+}
+
+.deck {
+	flex: 1;
+	padding: 1em;
+	border: solid;
+}

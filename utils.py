@@ -14,6 +14,9 @@ def get_dataframe():
 	func = lambda x: False if 'T' in x[-3:] else True
 	mask = data['cardCode'].apply(func)
 	data = data[mask]
+
+	## This will be changed to grab the wins and losses from database
+	data['winrate'] = 0
 	return data
 	
 if __name__ == '__main__':

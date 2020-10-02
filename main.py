@@ -1,10 +1,9 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 from utils import get_dataframe
 from gallery import g_home
 import pandas as pd
 import glob
 import os
-
 
 app = Flask(__name__)
 
@@ -34,7 +33,10 @@ def deck_builder():
 		if request.form.get('deckName'):
 			deckName = request.form['deckName']
 			## Save deck and add to list of available decks
-			activeDeck = pd.DataFrame()
+			columns = dataFrame.columns
+			activeDeck = pd.DataFrame(columns=dataFrame.columns)
+			activeDeck['wins'] = 0
+			activeDeck['losses'] = 0
 			path = f'decks/{deckName}.csv'
 			activeDeck.to_csv(path)
 			if path not in decks:
@@ -87,9 +89,25 @@ def deck_builder():
 			activeDeck.to_csv(deckName, index=False)
 			activeDeck = activeDeck.to_html()
 
+		if request.form.get('wins'):
+			deckName = request.form['selectDeck']
+			activeDeck = pd.read_csv(deckName)
+			activeDeck['wins'] = int(request.form['wins'])
+
+			activeDeck.to_csv(deckName, index=False)
+			activeDeck = activeDeck.to_html()
+
+		if request.form.get('losses'):
+			deckName = request.form['selectDeck']
+			activeDeck = pd.read_csv(deckName)
+			activeDeck['losses'] = int(request.form['losses'])
+
+			activeDeck.to_csv(deckName, index=False)
+			activeDeck = activeDeck.to_html()
+
 		## Renders webpage after post request
 		return render_template(
-			'deckbuilder.html',
+			'deckbuilder/deckbuilder.html', 
 			deckName=deckName,
 			cardList=cardList,
 			activeDeck=activeDeck,
@@ -98,7 +116,7 @@ def deck_builder():
 	## Initial page request
 	elif request.method == 'GET':
 		return render_template(
-			'deckbuilder.html',
+			'deckbuilder/deckbuilder.html',
 			deckName=None,
 			cardList=cardList,
 			activeDeck=None,
