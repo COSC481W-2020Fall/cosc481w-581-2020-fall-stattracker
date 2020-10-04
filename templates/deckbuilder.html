@@ -3,8 +3,17 @@
 	<head>
 		<title>deckbuilder</title>
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<style>
+	body{
+			background-image: url("{{ url_for('static', filename='images/deckbuilder_background.jpg') }}");
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: cover;
+			text-align: center;
+		}
+	</style>
 	</head>
-<body style="background-color:#ADD8E6;text-align:center">
+<body>
 	<!-- Navbar -->
 	<form method="POST">
 		<button type="submit" name="Home" value="Home">Home</button>
@@ -55,11 +64,11 @@
 
 	<!-- To display all cards on left of screen and current deck on right -->
 	<div class="container">
-		<div style="width: 50%; height: 100px; float: left">
+		<div style="width: 50%; height: 100px; float: left;">
 			<h1>All Cards:</h1>
 			{{ cardList|safe }}
 		</div>
-		<div style="margin-left: 50%; height: 100px">
+		<div style="margin-left: 50%; height: 100px;">
 			<h1>Current Deck: {{ deckName }}</h1>
 			{{ activeDeck|safe }}
 		</div>
