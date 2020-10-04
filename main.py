@@ -89,6 +89,17 @@ def deck_builder():
 			activeDeck.to_csv(deckName, index=False)
 			activeDeck = activeDeck.to_html()
 
+		if request.form.get('cardIDDelete'):
+			cardIDDelete = request.form['cardIDDelete']
+			deckName = request.form['selectDeck']
+			activeDeck = pd.read_csv(deckName)
+			# if cardIDDelete in activeDeck['cardCode']:
+			print(cardIDDelete)
+			activeDeck = activeDeck[activeDeck['cardCode'] != cardIDDelete]
+
+			activeDeck.to_csv(deckName, index=False)
+			activeDeck = activeDeck.to_html()
+
 		if request.form.get('wins'):
 			deckName = request.form['selectDeck']
 			activeDeck = pd.read_csv(deckName)
