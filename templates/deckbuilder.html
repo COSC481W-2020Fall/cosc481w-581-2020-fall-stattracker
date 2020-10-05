@@ -11,6 +11,18 @@
 			background-size: cover;
 			text-align: center;
 		}
+		.info-iframe {
+			display: none;
+		}
+		.info-iframe:hover {
+			display: block;
+		}
+		.info-trigger {
+			margin: 0;
+		}
+		.info-trigger:hover + .info-iframe {
+			display: block;
+		}
 	</style>
 	</head>
 <body>
@@ -64,7 +76,7 @@
 
 	<!-- To display all cards on left of screen and current deck on right -->
 	<div class="container">
-		<div style="width: 50%; height: 100px; float: left;">
+		<div style="width: 50%; height: 100px; float: left;" id="card-table">
 			<h1>All Cards:</h1>
 			{{ cardList|safe }}
 		</div>
@@ -73,5 +85,33 @@
 			{{ activeDeck|safe }}
 		</div>
 	</div>
+	<script>
+		// script to generate popup info for card table
+		var cardtable = document.getElementById('card-table').getElementsByTagName('table')[0];
+		// add new column
+		var infoth = document.createElement('th');
+		// infoth.innerHTML = 'Info';
+		cardtable.getElementsByTagName('thead')[0].getElementsByTagName('tr')[0].appendChild(infoth);
+		// add info popup item to row
+		var rows = cardtable.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+		for (var i = 0; i < rows.length; i++) {
+			var cardcode = rows[i].getElementsByTagName('td')[0].innerHTML;
+			var infotd = document.createElement('td');
+			var infop = document.createElement('p');
+			var infoiframe = document.createElement('iframe');
+			infoiframe.setAttribute('onmouseover', "setInfoIframeSrc(this, '/gallery/" + cardcode + "')");
+			infoiframe.className = 'info-iframe';
+			infop.innerHTML = 'Info';
+			infop.className = 'info-trigger';
+			infotd.appendChild(infop);
+			infotd.appendChild(infoiframe);
+			rows[i].appendChild(infotd);
+		}
+
+		function setInfoIframeSrc(el, url) {
+			el.setAttribute('src', url);
+			el.setAttribute('onmouseover', '');
+		}
+	</script>
 </body>
 </html>
