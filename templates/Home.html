@@ -17,6 +17,9 @@
     		 overflow: hidden;
     		 outline:none;
 		}
+		form {
+			text-align: center;
+		}
 
 		#deck_builder {
  			background-image: url("{{ url_for('static', filename='images/deckBuilder_Button.png') }}");
@@ -36,10 +39,10 @@
 	</head>
 <body>
 	<h2 align="center">StatTracker</h2>
-	<form method="POST" align="center">
+	<form method="POST">
 		<button id= "deck_builder" type="submit" name="Deck_Builder" value="Deck_Builder">Deck Builder</button>
 	</form>
-	<form method="POST" align="center">
+	<form method="POST">
 		<button id="gallery" type="submit" name="Card_Gallery" value="Card_Gallery">Card Gallery</button>
 	</form>
 		<form method="POST" align="center">
