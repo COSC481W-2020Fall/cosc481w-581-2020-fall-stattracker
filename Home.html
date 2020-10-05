@@ -2,8 +2,8 @@
 <html>
 	<head>
 	<title>Home</title>
-	<style type="text/css">
-		body{
+	<style>
+		body {
 			background-image: url("{{ url_for('static', filename='images/Background.jpg') }}");
 			background-repeat: no-repeat;
 			background-attachment: fixed;
@@ -15,10 +15,10 @@
 <body>
 	<h2 align="center">StatTracker Prototype</h2>
 	<form method="POST" align="center">
-		<button type="submit" name="Deck_Builder" value="Deck_Builder">Deck Builder</button>
+		<button type="submit" name="Home" value="Deck_Builder">Deck Builder</button>
 	</form>
 	<form method="POST" align="center">
-		<button type="submit" name="Card_Gallery" value="Card_Gallery">Card Gallery</button>
+		<button type="submit" name="Home" value="Card_Gallery">Card Gallery</button>
 	</form>
 	
 </body>
