@@ -128,7 +128,11 @@ Pending: implementation to determine which cards work best with which.
 $ pip install sqlalchemy
 
 <a href="https://www.youtube.com/watch?v=Z1RJmh_OqeA&ab_channel=freeCodeCamp.org"> Flask Tutorial (around 15:00 for database) </a>
+
 <a href="https://www.youtube.com/watch?v=o-vsdfCBpsU&ab_channel=sentdex"> Create SQLite (Video) </a>
+
 <a href="https://www.sqlitetutorial.net/sqlite-cheat-sheet/"> SQLite Cheat Sheet </a>
+
 <a href="https://www.kite.com/python/answers/how-to-insert-the-contents-of-a-csv-file-into-an-sqlite3-database-in-python"> Adding CSV to Database </a>
+
 <a href="https://www.tutorialspoint.com/sqlalchemy/sqlalchemy_core_sql_expressions.htm"> SQLAlchemy </a>
