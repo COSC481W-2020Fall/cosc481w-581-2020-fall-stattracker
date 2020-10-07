@@ -7,6 +7,19 @@
 <div align="center">
 	<h1>Deckbuilder</h1>
 </div>
+<style>
+	body{
+			background-image: url("{{ url_for('static', filename='images/deckbuilder_background.jpg') }}");
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: cover;
+			text-align: center;
+		}
+
+	table{
+		background-color: beige;
+	}
+</style>
 {% endblock %}
 
 {% block body %}
