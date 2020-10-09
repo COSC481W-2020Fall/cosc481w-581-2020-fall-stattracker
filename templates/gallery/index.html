@@ -3,6 +3,10 @@
 	<title>Card Gallery</title>
 	<style>
 		body {
+			background-image: url("{{ url_for('static', filename='images/card_gallery_background.jpg') }}");
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: cover;
 			background-color: #add8e6;
 			width: 100%;
 		}
@@ -19,6 +23,9 @@
 			display: block;
 			margin: 10px;
 			width: 250px;
+		}
+		table{
+			background-color: beige;
 		}
 	</style>
 </head>
