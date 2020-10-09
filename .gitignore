@@ -2,6 +2,7 @@ env
 .vs
 **/.DS_Store
 **/*.cpython-38.pyc
+decks
 
 # generic python gitignore below copied from https://github.com/github/gitignore/blob/master/Python.gitignore
 
