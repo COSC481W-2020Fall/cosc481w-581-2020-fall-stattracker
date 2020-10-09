@@ -4,6 +4,7 @@ from gallery import g_home
 import pandas as pd
 import glob
 import os
+import numpy as np
 
 app = Flask(__name__)
 
@@ -93,9 +94,10 @@ def deck_builder():
 			cardIDDelete = request.form['cardIDDelete']
 			deckName = request.form['selectDeck']
 			activeDeck = pd.read_csv(deckName)
-			# if cardIDDelete in activeDeck['cardCode']:
-			print(cardIDDelete)
-			activeDeck = activeDeck[activeDeck['cardCode'] != cardIDDelete]
+
+			copysOfCard = activeDeck[activeDeck['cardCode'] == cardIDDelete].index
+			cardToDelete = copysOfCard[np.random.randint(len(copysOfCard))]
+			activeDeck.drop(cardToDelete, inplace=True)
 
 			activeDeck.to_csv(deckName, index=False)
 			activeDeck = activeDeck.to_html()
