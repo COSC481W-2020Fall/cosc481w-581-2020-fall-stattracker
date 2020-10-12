@@ -22,10 +22,13 @@
 			width: 500px;
 			padding: 20px;
 		}
+		.hide {
+			display: none;
+		}
 	</style>
 </head>
 <body>
-	<a href="/gallery">&lt; back</a>
+	<a href="/gallery" id="backlink">&lt; back</a>
 	<div class="tmid card">
 		<h1 class="center">{{ name }}</h1>
 		<img src="{{ image }}">
@@ -34,4 +37,12 @@
 		<p>Cost: {{ cost }}</p>
 		<p>Type: {{ cardtype }}</p>
 	</div>
+	<script>
+		// hide back link if url has ?hideback appended
+		const urlParams = new URLSearchParams(window.location.search);
+		const myParam = urlParams.get('hideback');
+		if (myParam) {
+			document.getElementById('backlink').classList.toggle('hide');
+		}
+	</script>
 </body>
