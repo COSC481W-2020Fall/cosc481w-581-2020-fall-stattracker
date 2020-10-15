@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from utils import get_dataframe
+from utils import get_dataframe, get_champs
 from gallery import g_home
 import pandas as pd
 import glob
@@ -18,6 +18,21 @@ def Home():
 	else:
 		return render_template("Home.html") 
 
+## Start code for dataInputPage
+decks = glob.glob('decks/*.csv')
+champs = get_champs()
+
+@app.route('/datainput', methods=['GET','POST'])
+def data_input():
+	if request.method == 'POST':
+		pass
+	return render_template(
+		'dataInputPage/dataInputPage.html',
+		decks=decks,
+		champs=champs)
+
+
+## Start code for deckbuilder
 decks = glob.glob('decks/*.csv')
 dataFrame = get_dataframe()
 cardList = dataFrame.to_html()
@@ -134,6 +149,7 @@ def deck_builder():
 			cardList=cardList,
 			activeDeck=None,
 			decks=decks)
+## End code for deckbuilder
 
 @app.route('/gallery')
 @app.route('/gallery/<cardcode>')

@@ -77,5 +77,11 @@ def WINRATEtoDatase(filename, colUsed, colAdd):
 	# Saving table to database
 	csvFile.to_sql(filename, connection, if_exists='replace', index=False)
 
+def get_champs():
+	data = get_dataframe()
+	return data[data['rarity'] == 'Champion']['name'].to_list()
+	
 if __name__ == '__main__':
 	data = get_dataframe() # do not delete
+
+
