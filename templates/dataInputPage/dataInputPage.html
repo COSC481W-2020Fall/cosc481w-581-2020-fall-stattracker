@@ -1,8 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+<div align="left">
+	<a href="/">&lt; back</a>
+</div>
 	<title>Data Page</title>
 </head>
+	<style type="text/css">
+		body{
+			background-image: url("{{ url_for('static', filename='images/datainputbackground.jpg') }}");
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: cover;
+		}
+		</style>
 <body>
 	<div class="container">
 		<div class=row>
@@ -16,6 +27,14 @@
 				</select>
 
 				<h2>Select Opponent Regions</h2>
+				<select id="region" name="region" class="selectpicker form-control">
+					<option value="Demacia">Demacia</option>
+					<option value="Freljord">Freljord</option>
+					<option value="Ionia">Ionia</option>
+					<option value="Noxus">Noxus</option>
+					<option value="Piltover & Zaun">Piltover & Zaun</option>
+					<option value="Shadow Isles">Shadow Isles</option>
+				</select>
 				<select id="region" name="region" class="selectpicker form-control">
 					<option value="Demacia">Demacia</option>
 					<option value="Freljord">Freljord</option>
