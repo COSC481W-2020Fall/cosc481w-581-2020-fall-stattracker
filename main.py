@@ -15,6 +15,8 @@ def Home():
 			return redirect("deckbuilder")
 		if request.form.get("Card_Gallery"):## Sends you to the Card Gallery Page
 			return redirect("gallery")
+		if request.form.get("dataInputPage"):## Sends you to the Card Gallery Page
+			return redirect("datainput")
 	else:
 		return render_template("Home.html") 
 
