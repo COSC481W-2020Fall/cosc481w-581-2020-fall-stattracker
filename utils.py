@@ -62,6 +62,7 @@ def addGameDB(deckname, gameStats):
 	regions = gameStats [1]
 	champions = gameStats [2]
 	with connection:
+		c.execute("CREATE TABLE IF NOT EXISTS " + deckname + " ('Win/Loss', 'Opponent Regions', 'Opponent Champs')")
 		c.execute("INSERT INTO " + deckname + " VALUES(?, ?, ?)", (outcome, regions, champions))
 
 # Grabs a deck from the database and returns it
@@ -69,6 +70,7 @@ def getDeck(deckname):
 	connection = sqlite3.connect('card_data/stattracker.db')
 	c = connection.cursor()
 	with connection:
+		c.execute("CREATE TABLE IF NOT EXISTS " + deckname + " ('Win/Loss', 'Opponent Regions', 'Opponent Champs')")
 		c.execute("SELECT * FROM " + deckname)
 		return c.fetchall()
 
@@ -78,3 +80,5 @@ def get_champs():
 
 if __name__ == '__main__':
 	data = get_dataframe() # do not delete
+
+	getDeck("temp")
