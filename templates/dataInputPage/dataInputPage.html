@@ -17,7 +17,7 @@
 <body>
 	<div class="container">
 		<div class=row>
-			<form>
+			<!--form-->
 				<!-- Select a deck to view -->
 		    	<h2>Deck code</h2>
 			<!-- 	<select id="deck" name="deck" class="selectpicker form-control">
@@ -25,80 +25,82 @@
 					<option value="{{ item }}">{{ item }}</option>
 					{% endfor %}
 				</select> -->
-				<input type="text" name="cardCode">
+				<!--form method="POST"-->
+				<form method="POST">
+					<input type="text" id="cardCode" name="cardCode">
 
-				<h2>Select Opponent Regions</h2>
-				<select id="region" name="region" class="selectpicker form-control">
-					<option value="Demacia">Demacia</option>
-					<option value="Freljord">Freljord</option>
-					<option value="Ionia">Ionia</option>
-					<option value="Noxus">Noxus</option>
-					<option value="Piltover & Zaun">Piltover & Zaun</option>
-					<option value="Shadow Isles">Shadow Isles</option>
-					<option value="Shadow Isles">Targon</option>
-				</select>
-				<select id="region" name="region" class="selectpicker form-control">
-					<option value="Demacia">Demacia</option>
-					<option value="Freljord">Freljord</option>
-					<option value="Ionia">Ionia</option>
-					<option value="Noxus">Noxus</option>
-					<option value="Piltover & Zaun">Piltover & Zaun</option>
-					<option value="Shadow Isles">Shadow Isles</option>
-					<option value="Shadow Isles">Targon</option>
-				</select>
+					<h2>Select Opponent Regions</h2>
+					<select id="region1" name="region1" class="selectpicker form-control">
+						<option value="Demacia">Demacia</option>
+						<option value="Freljord">Freljord</option>
+						<option value="Ionia">Ionia</option>
+						<option value="Noxus">Noxus</option>
+						<option value="Piltover & Zaun">Piltover & Zaun</option>
+						<option value="Shadow Isles">Shadow Isles</option>
+						<option value="Shadow Isles">Targon</option>
+					</select>
+					<select id="region" name="region" class="selectpicker form-control">
+						<option value="Demacia">Demacia</option>
+						<option value="Freljord">Freljord</option>
+						<option value="Ionia">Ionia</option>
+						<option value="Noxus">Noxus</option>
+						<option value="Piltover & Zaun">Piltover & Zaun</option>
+						<option value="Shadow Isles">Shadow Isles</option>
+						<option value="Shadow Isles">Targon</option>
+					</select>
 
-				<h2>Select Opponent Champions</h2>
+					<h2>Select Opponent Champions</h2>
 
-				<h3>Champ 1</h3>
-				<select id="champ1" name="champ1" class="selectpicker form-control">
-					{% for item in champs %}
-					<option value="{{ item }}">{{ item }}</option>
-					{% endfor %}
-				</select>
+					<h3>Champ 1</h3>
+					<select id="champ1" name="champ1" class="selectpicker form-control">
+						{% for item in champs %}
+						<option value="{{ item }}">{{ item }}</option>
+						{% endfor %}
+					</select>
 
-				<h3>Champ 2</h3>
-				<select id="champ2" name="champ2" class="selectpicker form-control">
-					{% for item in champs %}
-					<option value="{{ item }}">{{ item }}</option>
-					{% endfor %}
-				</select>
+					<h3>Champ 2</h3>
+					<select id="champ2" name="champ2" class="selectpicker form-control">
+						{% for item in champs %}
+						<option value="{{ item }}">{{ item }}</option>
+						{% endfor %}
+					</select>
 
-				<h3>Champ 3</h3>
-				<select id="champ3" name="champ3" class="selectpicker form-control">
-					{% for item in champs %}
-					<option value="{{ item }}">{{ item }}</option>
-					{% endfor %}
-				</select>
+					<h3>Champ 3</h3>
+					<select id="champ3" name="champ3" class="selectpicker form-control">
+						{% for item in champs %}
+						<option value="{{ item }}">{{ item }}</option>
+						{% endfor %}
+					</select>
 
-				<h3>Champ 4</h3>
-				<select id="champ4" name="champ4" class="selectpicker form-control">
-					{% for item in champs %}
-					<option value="{{ item }}">{{ item }}</option>
-					{% endfor %}
-				</select>
+					<h3>Champ 4</h3>
+					<select id="champ4" name="champ4" class="selectpicker form-control">
+						{% for item in champs %}
+						<option value="{{ item }}">{{ item }}</option>
+						{% endfor %}
+					</select>
 
-				<h3>Champ 5</h3>
-				<select id="champ5" name="champ5" class="selectpicker form-control">
-					{% for item in champs %}
-					<option value="{{ item }}">{{ item }}</option>
-					{% endfor %}
-				</select>
+					<h3>Champ 5</h3>
+					<select id="champ5" name="champ5" class="selectpicker form-control">
+						{% for item in champs %}
+						<option value="{{ item }}">{{ item }}</option>
+						{% endfor %}
+					</select>
 
-				<h3>Champ 6</h3>
-				<select id="champ6" name="champ6" class="selectpicker form-control">
-					{% for item in champs %}
-					<option value="{{ item }}">{{ item }}</option>
-					{% endfor %}
-				</select>
+					<h3>Champ 6</h3>
+					<select id="champ6" name="champ6" class="selectpicker form-control">
+						{% for item in champs %}
+						<option value="{{ item }}">{{ item }}</option>
+						{% endfor %}
+					</select>
 
-				<h2>Win / Loss</h2>
-				<select id="wl" name="wl" class="selectpicker form-control">
-					<option value="Win">Win</option>
-					<option value="Loss">Loss</option>
-				</select>
+					<h2>Win / Loss</h2>
+					<select id="wl" name="wl" class="selectpicker form-control">
+						<option value="Win">Win</option>
+						<option value="Loss">Loss</option>
+					</select>
 
-				<button type="submit" class="btn btn-default">Add Data</button>
-			</form>
+					<button type="submit" class="btn btn-default">Add Data</button>
+				</form>
 		</div>
 	</div>
 </body>
