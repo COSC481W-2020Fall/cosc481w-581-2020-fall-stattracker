@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from utils import get_dataframe, get_champs
+from utils import get_dataframe, get_champs, addGameDB
 from gallery import g_home
 import pandas as pd
 import glob
@@ -18,7 +18,7 @@ def Home():
 		if request.form.get("dataInputPage"):## Sends you to the Card Gallery Page
 			return redirect("datainput")
 	else:
-		return render_template("Home.html") 
+		return render_template("Home.html")
 
 ## Start code for dataInputPage
 decks = glob.glob('decks/*.csv')
@@ -27,7 +27,24 @@ champs = get_champs()
 @app.route('/datainput', methods=['GET','POST'])
 def data_input():
 	if request.method == 'POST':
-		pass
+		code = request.form['cardCode']
+		outcome = request.form['wl']
+		regions = request.form['region1']
+		if request.form['region'] not in regions:
+			regions += " / " + request.form['region']
+		theChamps = request.form['champ1']
+		if request.form['champ2'] not in theChamps:
+			theChamps += " / " + request.form['champ2']
+		if request.form['champ3'] not in theChamps:
+			theChamps += " / " + request.form['champ3']
+		if request.form['champ4'] not in theChamps:
+			theChamps += " / " + request.form['champ4']
+		if request.form['champ5'] not in theChamps:
+			theChamps += " / " + request.form['champ5']
+		if request.form['champ6'] not in theChamps:
+			theChamps += " / " + request.form['champ6']
+		stats = [outcome, regions, theChamps]
+		addGameDB(code, stats)
 	return render_template(
 		'dataInputPage/dataInputPage.html',
 		decks=decks,
@@ -103,7 +120,7 @@ def deck_builder():
 				activeDeck = activeDeck.append(row, ignore_index=True)
 			elif row.iloc[0]['rarity'] != 'Champion' and numCopies < 3 and len(activeDeck) < 40:
 				activeDeck = activeDeck.append(row, ignore_index=True)
-				
+
 			activeDeck.to_csv(deckName, index=False)
 			activeDeck = activeDeck.to_html()
 
@@ -137,7 +154,7 @@ def deck_builder():
 
 		## Renders webpage after post request
 		return render_template(
-			'deckbuilder/deckbuilder.html', 
+			'deckbuilder/deckbuilder.html',
 			deckName=deckName,
 			cardList=cardList,
 			activeDeck=activeDeck,
