@@ -23,6 +23,7 @@ def Home():
 ## Start code for dataInputPage
 decks = glob.glob('decks/*.csv')
 champs = get_champs()
+champs.append('None')
 
 @app.route('/datainput', methods=['GET','POST'])
 def data_input():
