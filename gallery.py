@@ -16,7 +16,7 @@ def g_home(cardcode):
 
 	if cardcode == None:
 		# limit data to these fields
-		df = df[['name', 'cardCode']]
+		df = df[['name', 'cardCode']].sort_values('name')
 		print(df)
 		# render page and add json data as js variable
 		jsondata = json.loads(df.to_json())
