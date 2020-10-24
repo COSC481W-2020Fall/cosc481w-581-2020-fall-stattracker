@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from utils import get_dataframe, get_champs, addGameDB
+from utils import get_dataframe, get_champs, addGameDB, buildFromCode
 from gallery import g_home
 import pandas as pd
 import glob
@@ -64,6 +64,20 @@ def deck_builder():
 
 		if request.form.get('Home'): ## Redirect to home page
 			return redirect('/')
+
+		if request.form.get('deckNameFromCode'):
+			deckName = request.form['deckNameFromCode']
+			code = request.form['deckCode']
+			activeDeck = buildFromCode(code)
+			activeDeck['wins'] = 0
+			activeDeck['losses'] = 0
+			path = f'decks/{deckName}.csv'
+			activeDeck.to_csv(path)
+			if path not in decks:
+				decks.append(path)
+				activeDeck = activeDeck.to_html()
+			elif path in decks or not deckName:
+				activeDeck = None
 
 		## Create new deck
 		if request.form.get('deckName'):
