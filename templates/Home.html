@@ -23,16 +23,22 @@
 
 		#deck_builder {
  			background-image: url("{{ url_for('static', filename='images/deckBuilder_Button.png') }}");
-    		background-size: 744px 322px;
-    		height: 322px;  
-   		 width: 744px;
+    		background-size: 372px 161px;
+    		height: 161px;  
+   		 width: 372px;
 		}
 
 		#gallery {
 			background-image: url("{{ url_for('static', filename='images/cardGallery_Button.png') }}");
-    		background-size: 744px 322px;
-    		height: 322px;  
-   		 width: 744px;
+    		background-size: 372px 161px;
+    		height: 161px;  
+   		 width: 372px;
+		}
+		#datainput {
+			background-image: url("{{ url_for('static', filename='images/dataInput.png') }}");
+    		background-size: 372px 161px;
+    		height: 161px;  
+   		 width: 372px;
 		}
 		h2 {font-size: 40px;}
 	</style>
@@ -45,7 +51,7 @@
 	<form method="POST">
 		<button id="gallery" type="submit" name="Card_Gallery" value="Card_Gallery"></button>
 	</form>
-		<form method="POST" align="center">
+	<form method="POST">
 		<button id="datainput" type="submit" name="dataInputPage" value="dataInputPage">Data Input Page</button>
 	</form>
 	
