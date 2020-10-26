@@ -8,7 +8,7 @@ import numpy as np
 
 app = Flask(__name__)
 
-@app.route('/', methods =["GET","POST"])
+@app.route('/home', methods =["GET","POST"])
 def Home():
 	if request.method == "POST":
 		if request.form.get("Deck_Builder"):## Sends you to the Deck Builder Page
@@ -19,7 +19,6 @@ def Home():
 			return redirect("datainput")
 	else:
 		return render_template("Home.html")
-
 ## Start code for dataInputPage
 decks = glob.glob('decks/*.csv')
 champs = get_champs()
