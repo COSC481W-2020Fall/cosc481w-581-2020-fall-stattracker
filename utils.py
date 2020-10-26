@@ -79,7 +79,7 @@ def get_champs():
 	data = get_dataframe()
 	return data[data['rarity'] == 'Champion']['name'].to_list()
 
-## Takes in a valid card code and returns a pandas dataframe with 
+## Takes in a valid card code and returns a pandas dataframe with
 def buildFromCode(code):
 	data = get_dataframe()
 	deck = LoRDeck.from_deckcode(code)
@@ -96,5 +96,3 @@ def buildFromCode(code):
 
 if __name__ == '__main__':
 	data = get_dataframe() # do not delete
-
-	getDeck("temp")

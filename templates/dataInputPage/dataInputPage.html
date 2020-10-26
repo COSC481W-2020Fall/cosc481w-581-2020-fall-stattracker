@@ -13,7 +13,23 @@
 			background-attachment: fixed;
 			background-size: cover;
 		}
+		.message {
+			background-color: hotpink;
+			text-align: center;
+			border-style: dotted;
+			border-color: #2B0014;
+			font-size: 150%;
+			padding: 5px;
+			margin: 5px 25% 5px 25%;
+		}
 		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+		<script>
+			// so the message times out
+			timeout(function() {
+				(.message).fadeOut('fast');
+			}, 10000)
+		</script>
 <body>
 	<div class="container">
 		<div class=row>
@@ -26,6 +42,19 @@
 					{% endfor %}
 				</select> -->
 				<!--form method="POST"-->
+					{% with messages = get_flashed_messages() %}
+					{% if messages %}
+				<div class = "message">
+					{% for message in messages %}
+
+					{{ message }}
+
+					{% endfor %}
+				</div>
+
+					{% endif %}
+					{% endwith %}
+					{% block body %} {% endblock %}
 				<form method="POST">
 					<input type="text" id="cardCode" name="cardCode">
 
