@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from utils import get_dataframe, get_champs, addGameDB, buildFromCode
 from gallery import g_home
+from statsviewer import sv_home
 import pandas as pd
 import glob
 import os
@@ -176,6 +177,10 @@ def deck_builder():
 @app.route('/gallery/<cardcode>')
 def gallery(cardcode = None):
 	return g_home(cardcode)
+
+@app.route('/statsviewer')
+def statsviewer():
+	return sv_home()
 
 if __name__ == '__main__':
 	app.run(debug=True)
