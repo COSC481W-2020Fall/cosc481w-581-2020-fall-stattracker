@@ -7,9 +7,9 @@ class AppendUnitTest(unittest.TestCase):
 
 	def test_appendDeck(self):
 		actual = []
-		expected = ['W', 'Ionia / Targon', 'Lee Sin']
+		expected = ('W', 'Ionia / Targon', 'Lee Sin / Lulu')
 		deck = addGameDB('CIBQCAIBA4AQEAICBMBAMBIIBMGREFA4EARC2OQAAEAQGBQO',expected)
-
+		expected =[('W', 'Ionia / Targon', 'Lee Sin / Lulu')]
 
 		connection = sqlite3.connect('card_data/stattracker.db')
 		c = connection.cursor()
@@ -18,15 +18,13 @@ class AppendUnitTest(unittest.TestCase):
 			records = c.fetchall()
 
 		for x in records:
-			actual.append(x)
-		self.assertEqual(actual, expected)
+			actual.append([x])
+		self.assertEqual(actual[len(actual)-1], expected)
 
 		with connection:
-				c.execute("DELETE FROM CIBQCAIBA4AQEAICBMBAMBIIBMGREFA4EARC2OQAAEAQGBQO ORDER BY  DESC LIMIT 1")
+			c.execute("DELETE FROM CIBQCAIBA4AQEAICBMBAMBIIBMGREFA4EARC2OQAAEAQGBQO WHERE `Opponent Champs` = 'Lee Sin / Lulu'")
 
 
 
 if __name__ == '__main__':
 	unittest.main()
-
-		
