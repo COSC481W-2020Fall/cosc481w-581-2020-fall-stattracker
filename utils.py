@@ -81,4 +81,4 @@ def get_champs():
 if __name__ == '__main__':
 	data = get_dataframe() # do not delete
 
-	getDeck("temp")
+	# getDeck("temp")
