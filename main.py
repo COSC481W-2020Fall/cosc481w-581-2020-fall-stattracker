@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from utils import get_dataframe, get_champs, addGameDB
 from gallery import g_home
 import pandas as pd
@@ -7,6 +7,7 @@ import os
 import numpy as np
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 
 @app.route('/home', methods =["GET","POST"])
 def Home():
@@ -15,7 +16,7 @@ def Home():
 			return redirect("deckbuilder")
 		if request.form.get("Card_Gallery"):## Sends you to the Card Gallery Page
 			return redirect("gallery")
-		if request.form.get("dataInputPage"):## Sends you to the Card Gallery Page
+		if request.form.get("dataInputPage"):## Sends you to the Data Input Page
 			return redirect("datainput")
 	else:
 		return render_template("Home.html")
@@ -32,19 +33,24 @@ def data_input():
 		regions = request.form['region1']
 		if request.form['region'] not in regions:
 			regions += " / " + request.form['region']
-		theChamps = request.form['champ1']
-		if request.form['champ2'] not in theChamps:
-			theChamps += " / " + request.form['champ2']
-		if request.form['champ3'] not in theChamps:
-			theChamps += " / " + request.form['champ3']
-		if request.form['champ4'] not in theChamps:
-			theChamps += " / " + request.form['champ4']
-		if request.form['champ5'] not in theChamps:
-			theChamps += " / " + request.form['champ5']
-		if request.form['champ6'] not in theChamps:
-			theChamps += " / " + request.form['champ6']
+		# Adding the champions
+		strCh = " "
+		theChamps = " "
+		for x in range(6):
+			strCh = "champ" + str(x+1)
+			if request.form[strCh] != "None":
+				if len(theChamps) == 1:
+					theChamps = request.form[strCh]
+				elif request.form[strCh] not in theChamps:
+					theChamps += " / " + request.form[strCh]
 		stats = [outcome, regions, theChamps]
 		addGameDB(code, stats)
+		if outcome == "Win":
+			flash("Congratulations on your victory!")
+			return redirect(request.url)
+		else:
+			flash("Better luck next time...")
+			return redirect(request.url)
 	return render_template(
 		'dataInputPage/dataInputPage.html',
 		decks=decks,
