@@ -5,6 +5,7 @@ import pandas as pd
 import sqlite3
 import glob
 import sqlalchemy
+from lor_deckcodes import LoRDeck, CardCodeAndCount
 
 def get_dataframe():
 	files = glob.glob('card_data/*.json')
@@ -77,6 +78,21 @@ def getDeck(deckname):
 def get_champs():
 	data = get_dataframe()
 	return data[data['rarity'] == 'Champion']['name'].to_list()
+
+## Takes in a valid card code and returns a pandas dataframe with 
+def buildFromCode(code):
+	data = get_dataframe()
+	deck = LoRDeck.from_deckcode(code)
+
+	codes = [(card.card_code, card.count) for card in deck.cards]
+
+	newDeck = pd.DataFrame(columns=data.columns)
+
+	for cardCode, count in codes:
+		for _ in range(count):
+			row = data.loc[data['cardCode'] == cardCode]
+			newDeck = newDeck.append(row, ignore_index=True)
+	return newDeck
 
 if __name__ == '__main__':
 	data = get_dataframe() # do not delete
