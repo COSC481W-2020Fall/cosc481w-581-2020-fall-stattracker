@@ -70,8 +70,8 @@ def deck_builder():
 		if request.form.get('Home'): ## Redirect to home page
 			return redirect('/')
 
-		if request.form.get('deckNameFromCode'):
-			deckName = request.form['deckNameFromCode']
+		if request.form.get('fromCode'):
+			deckName = request.form['deckName']
 			code = request.form['deckCode']
 			activeDeck = buildFromCode(code)
 			activeDeck['wins'] = 0
@@ -85,13 +85,11 @@ def deck_builder():
 				activeDeck = None
 
 		## Create new deck
-		if request.form.get('deckName'):
+		if not request.form.get('fromCode') and request.form.get('deckName'):
 			deckName = request.form['deckName']
 			## Save deck and add to list of available decks
 			columns = dataFrame.columns
 			activeDeck = pd.DataFrame(columns=dataFrame.columns)
-			activeDeck['wins'] = 0
-			activeDeck['losses'] = 0
 			path = f'decks/{deckName}.csv'
 			activeDeck.to_csv(path)
 			if path not in decks:
@@ -101,14 +99,14 @@ def deck_builder():
 				activeDeck = None
 
 		## Select deck to view
-		if request.form.get('selectDeck'):
+		if request.form.get('actions') == 'viewDeck':
 			deckName = request.form['selectDeck']
 			activeDeck = pd.read_csv(deckName)
 			activeDeck = activeDeck.to_html()
 
 		## Deletes deck
-		if request.form.get('deleteDeck'):
-			deckName = request.form['deleteDeck']
+		if request.form.get('actions') == 'deleteDeck':
+			deckName = request.form['selectDeck']
 			os.remove(deckName)
 			if deckName in decks:
 				decks.remove(deckName)
@@ -116,7 +114,7 @@ def deck_builder():
 			activeDeck = None
 
 		## Add card to deck
-		if request.form.get('cardID'): ## Receive card id to add to deck
+		if request.form.get('actions') == 'addCard': ## Receive card id to add to deck
 			cardID = request.form['cardID']
 			row = dataFrame.loc[dataFrame['cardCode'] == cardID]
 
@@ -144,30 +142,14 @@ def deck_builder():
 			activeDeck.to_csv(deckName, index=False)
 			activeDeck = activeDeck.to_html()
 
-		if request.form.get('cardIDDelete'):
-			cardIDDelete = request.form['cardIDDelete']
+		if request.form.get('actions') == 'deleteCard':
+			cardIDDelete = request.form['cardID']
 			deckName = request.form['selectDeck']
 			activeDeck = pd.read_csv(deckName)
 
 			copysOfCard = activeDeck[activeDeck['cardCode'] == cardIDDelete].index
 			cardToDelete = copysOfCard[np.random.randint(len(copysOfCard))]
 			activeDeck.drop(cardToDelete, inplace=True)
-
-			activeDeck.to_csv(deckName, index=False)
-			activeDeck = activeDeck.to_html()
-
-		if request.form.get('wins'):
-			deckName = request.form['selectDeck']
-			activeDeck = pd.read_csv(deckName)
-			activeDeck['wins'] = int(request.form['wins'])
-
-			activeDeck.to_csv(deckName, index=False)
-			activeDeck = activeDeck.to_html()
-
-		if request.form.get('losses'):
-			deckName = request.form['selectDeck']
-			activeDeck = pd.read_csv(deckName)
-			activeDeck['losses'] = int(request.form['losses'])
 
 			activeDeck.to_csv(deckName, index=False)
 			activeDeck = activeDeck.to_html()
