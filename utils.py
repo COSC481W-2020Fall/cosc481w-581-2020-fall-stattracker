@@ -21,7 +21,7 @@ def get_dataframe():
 	data = data[mask]
 
 	## This will be changed to grab the wins and losses from database
-	data['winrate'] = 0
+	# data['winrate'] = 0
 	data = data.reset_index(drop=True)
 	return data
 
