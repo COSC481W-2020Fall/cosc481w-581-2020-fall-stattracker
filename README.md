@@ -2,6 +2,8 @@
 
 A program for keeping track of the popularity of cards.
 
+To activate the env on unbuntu use: source env/bin/activate
+
 <h2 align="center">Prototype Description</h2>
 
 - A user interface for the user to choose their options
