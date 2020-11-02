@@ -6,6 +6,12 @@ from utils import get_dataframe
 class DeckBuilderTests(unittest.TestCase):
 	"""docstring for DeckBuilderTests"""
 
+	def test_get_dataframe(self):
+		data = get_dataframe()
+		self.assertEqual(len(data), 601)
+		max_num_copies = data['name'].value_counts().max()
+		self.assertEqual(max_num_copies, 1)
+		
 	def test_buildFromCode(self):
 		deck = get_dataframe()
 		
