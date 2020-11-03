@@ -1,7 +1,7 @@
 import unittest
 import sqlalchemy
 import sqlite3
-from utils import addGameDB
+from utils import addGameDB, get_champs
 
 class AppendUnitTest(unittest.TestCase):
 
@@ -24,7 +24,12 @@ class AppendUnitTest(unittest.TestCase):
 		with connection:
 				c.execute("DELETE FROM CIBQCAIBA4AQEAICBMBAMBIIBMGREFA4EARC2OQAAEAQGBQO ORDER BY  DESC LIMIT 1")
 
-
+	def test_Champs(self):
+		data = get_dataframe()
+	return data[data['rarity'] == 'Champion']['name'].to_list()
+	get_champs()
+	for x,y(data):
+		self.assertEqual(x,y)
 
 if __name__ == '__main__':
 	unittest.main()
