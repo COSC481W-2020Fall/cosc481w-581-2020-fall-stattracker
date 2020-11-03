@@ -41,3 +41,6 @@ def count_losses(df):
 		if row == 'L':
 			count += 1
 	return count
+
+def win_avg(df):
+	return count_wins(df) / len(df.index)
