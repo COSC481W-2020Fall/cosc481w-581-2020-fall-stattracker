@@ -5,13 +5,69 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Stats Viewer</title>
 	<style>
-		html {
-			color: #fff;
-			background-color: #000;
-		}
 	</style>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 </head>
 <body>
-	Check the console
+	<canvas id="chart"></canvas>
+	<script>
+		var json = JSON.parse({{ data | tojson | safe }});
+		var deckname = '{{ name }}';
+		console.log(json, deckname);
+
+		// shape chart data
+		// https://stackoverflow.com/a/684692/13157180
+		var labels = [];
+		var data = [];
+		var wincount = 0;
+		for (var key in json["Win/Loss"]) {
+			if (json["Win/Loss"].hasOwnProperty(key)) {
+				labels.push(key);
+				if (!(json["Win/Loss"][key] == 'L')) { // if win
+					wincount += 1;
+				}
+				data.push(wincount);
+			}
+		}
+
+		// create chart
+		var ctx = document.getElementById('chart').getContext('2d');
+		var chart = new Chart(ctx, {
+				// The type of chart we want to create
+				type: 'line',
+
+				// The data for our dataset
+				data: {
+						labels: labels,
+						datasets: [{
+								label: deckname,
+								borderColor: 'rgb(255, 99, 132)',
+								data: data
+						}]
+				},
+
+				// Configuration options go here
+				options: {
+					title: {
+						display: true,
+						text: 'Win Count After Every Game For Deck ' + deckname
+					},
+					scales: {
+						xAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'Games'
+							}
+						}],
+						yAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'Wins'
+							}
+						}]
+					}
+				}
+		});
+	</script>
 </body>
 </html>
