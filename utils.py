@@ -84,17 +84,20 @@ def buildFromCode(code):
 	data = get_dataframe()
 	deck = LoRDeck.from_deckcode(code)
 
-	codes = [(card.card_code, card.count) for card in deck.cards]
-
+	# codes = [(card.card_code, card.count) for card in deck.cards]
 	newDeck = pd.DataFrame(columns=data.columns)
 
-	for cardCode, count in codes:
-		for _ in range(count):
-			row = data.loc[data['cardCode'] == cardCode]
-			newDeck = newDeck.append(row, ignore_index=True)
+	for i, card in enumerate(deck.cards):
+		row = data.loc[data['cardCode'] == card.card_code]
+		newDeck = newDeck.append(row, ignore_index=True)
+		newDeck.loc[i, 'count'] = card.count
+
 	return newDeck
 
 if __name__ == '__main__':
 	data = get_dataframe() # do not delete
 
 	# getDeck("temp")
+
+	deck = buildFromCode('CICACAYABYBAEBQFCYBAEAAGBEDQCAABBEFR2JJHGMBACAIACUAQEAAHAA')
+	print(deck)

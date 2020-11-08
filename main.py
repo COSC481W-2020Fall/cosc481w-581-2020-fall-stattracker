@@ -74,8 +74,6 @@ def deck_builder():
 			deckName = request.form['deckName']
 			code = request.form['deckCode']
 			activeDeck = buildFromCode(code)
-			activeDeck['wins'] = 0
-			activeDeck['losses'] = 0
 			path = f'decks/{deckName}.csv'
 			activeDeck.to_csv(path)
 			if path not in decks:
@@ -90,6 +88,7 @@ def deck_builder():
 			## Save deck and add to list of available decks
 			columns = dataFrame.columns
 			activeDeck = pd.DataFrame(columns=dataFrame.columns)
+			activeDeck['count'] = None
 			path = f'decks/{deckName}.csv'
 			activeDeck.to_csv(path)
 			if path not in decks:
@@ -114,42 +113,85 @@ def deck_builder():
 			activeDeck = None
 
 		## Add card to deck
+		# if request.form.get('actions') == 'addCard':
+		# 	## Receive card id to add to deck
+		# 	cardID = request.form['cardID']
+		# 	row = dataFrame.loc[dataFrame['cardCode'] == cardID]
+		# 	row = row.reset_index(drop=True)
+		# 	row.loc[0, 'count'] = 1
+		# 	isChamp = row.loc[0, 'rarity'] == 'Champion'
+
+		# 	deckName = request.form['selectDeck']
+		# 	activeDeck = pd.read_csv(deckName)
+
+		# 	if cardID in list(activeDeck['cardCode']):
+		# 		numCopies = activeDeck[activeDeck['cardCode'] == cardID].loc[0,'count']
+		# 	else:
+		# 		numCopies = 0
+
+		# 	rarity = activeDeck['rarity'].value_counts()
+		# 	if 'Champion' in rarity:
+		# 		numChampions = rarity['Champion']
+		# 	else:
+		# 		numChampions = 0
+
+		# 	if len(activeDeck) < 40:
+		# 		if numCopies == 0:
+		# 			activeDeck = activeDeck.append(row, ignore_index=True)
+		# 			 # ((isChamp and numChampions < 6) or not isChamp)
+		# 		elif 0 < numCopies < 3:
+		# 			activeDeck.loc[activeDeck['cardCode'] == cardID, 'count'] += 1
+					 
+		# 	activeDeck.to_csv(deckName, index=False)
+		# 	activeDeck = activeDeck.to_html()
+
+		## Add card to deck
 		if request.form.get('actions') == 'addCard': ## Receive card id to add to deck
 			cardID = request.form['cardID']
 			row = dataFrame.loc[dataFrame['cardCode'] == cardID]
+			row = row.reset_index(drop=True)
+			row.loc[0, 'count'] = 1
+			isChamp = row.iloc[0]['rarity'] == 'Champion'
 
 			deckName = request.form['selectDeck']
 			## Write row to specified deck database
 			activeDeck = pd.read_csv(deckName)
-			numChampions = 0
+
 			if len(activeDeck) > 0:
-				counts = activeDeck['cardCode'].value_counts()
 				rarity = activeDeck['rarity'].value_counts()
-				if 'Champion' in rarity:
-					numChampions = rarity['Champion']
-				if cardID in counts:
-					numCopies = counts[cardID]
+				mask = (activeDeck['rarity'] == 'Champion')
+				numChampions = sum(mask * activeDeck['count'])
+
+				if cardID in list(activeDeck['cardCode']):
+					numCopies = activeDeck.loc[activeDeck['cardCode'] == cardID, 'count'].item()
 				else:
 					numCopies = 0
 			else:
 				numCopies = 0
+				numChampions = 0
 
-			if row.iloc[0]['rarity'] == 'Champion' and numCopies < 3 and numChampions < 6 and len(activeDeck) < 40: ## Makes sure the deck fits the deckbuilding requirements.
+			if numCopies == 0:
 				activeDeck = activeDeck.append(row, ignore_index=True)
-			elif row.iloc[0]['rarity'] != 'Champion' and numCopies < 3 and len(activeDeck) < 40:
-				activeDeck = activeDeck.append(row, ignore_index=True)
+			elif isChamp and numCopies < 3 and numChampions < 5 and len(activeDeck) < 40:
+				activeDeck.loc[activeDeck['cardCode'] == cardID, 'count'] += 1
+			elif not isChamp and numCopies < 3 and len(activeDeck) < 40:
+				activeDeck.loc[activeDeck['cardCode'] == cardID, 'count'] += 1
 
 			activeDeck.to_csv(deckName, index=False)
 			activeDeck = activeDeck.to_html()
 
+		## Delete card
 		if request.form.get('actions') == 'deleteCard':
 			cardIDDelete = request.form['cardID']
 			deckName = request.form['selectDeck']
 			activeDeck = pd.read_csv(deckName)
 
-			copysOfCard = activeDeck[activeDeck['cardCode'] == cardIDDelete].index
-			cardToDelete = copysOfCard[np.random.randint(len(copysOfCard))]
-			activeDeck.drop(cardToDelete, inplace=True)
+			if cardIDDelete in list(activeDeck['cardCode']):
+				numCopies = activeDeck.loc[activeDeck['cardCode'] == cardIDDelete, 'count'].item()
+				if numCopies > 1:
+					activeDeck.loc[activeDeck['cardCode'] == cardIDDelete, 'count'] -= 1
+				else:
+					activeDeck.drop(activeDeck[activeDeck['cardCode'] == cardIDDelete].index, inplace=True)
 
 			activeDeck.to_csv(deckName, index=False)
 			activeDeck = activeDeck.to_html()
@@ -178,4 +220,4 @@ def gallery(cardcode = None):
 	return g_home(cardcode)
 
 if __name__ == '__main__':
-	app.run(host="0.0.0.0",debug=False)
+	app.run()
