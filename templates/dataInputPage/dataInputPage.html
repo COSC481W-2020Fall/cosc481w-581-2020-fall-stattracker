@@ -111,14 +111,40 @@
 
 					<h2>Select Opponent Champions</h2>
 
-					<h3>Champ 1</h3>
-					<select id="champ1" name="champ1" class="selectpicker form-control">
+					<!-- <h3>Champ 1</h3> -->
+					<select id="champ" name="champ" class="selectpicker form-control">
 						{% for item in champs %}
 						<option value="{{ item }}">{{ item }}</option>
 						{% endfor %}
 					</select>
-
-					<h3>Champ 2</h3>
+					<input type="button" id="btnClone" value="Clone">
+					<div id="container">
+					</div>
+					<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+					<script type="text/javascript">
+						$(function () {
+							$("#btnClone").bind("click", function () {
+					 
+								var index = $("#container select").length + 1;
+					 
+								//Clone the DropDownList
+								var ddl = $("#champ").clone();
+					 
+								//Set the ID and Name
+								ddl.attr("id", "champ_" + index);
+								ddl.attr("name", "champ_" + index);
+					 
+								//[OPTIONAL] Copy the selected value
+								var selectedValue = $("#champ option:selected").val();
+								ddl.find("option[value = '" + selectedValue + "']").attr("selected", "selected");
+					 
+								//Append to the DIV.
+								$("#container").append(ddl);
+								$("#container").append("<br /><br />");
+							});
+						});
+					</script>
+					<!-- <h3>Champ 2</h3>
 					<select id="champ2" name="champ2" class="selectpicker form-control">
 						{% for item in champs %}
 						<option value="{{ item }}">{{ item }}</option>
@@ -151,7 +177,7 @@
 						{% for item in champs %}
 						<option value="{{ item }}">{{ item }}</option>
 						{% endfor %}
-					</select>
+					</select> -->
 
 					<h2>Win / Loss</h2>
 					<select id="wl" name="wl" class="selectpicker form-control">
