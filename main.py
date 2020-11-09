@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from utils import get_dataframe, get_champs, addGameDB, buildFromCode
+from utils import get_dataframe, get_champs, addGameDB, buildFromCode,
 from gallery import g_home
 import pandas as pd
 import glob

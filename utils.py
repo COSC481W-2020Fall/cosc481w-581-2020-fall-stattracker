@@ -79,7 +79,7 @@ def get_champs():
 	data = get_dataframe()
 	return data[data['rarity'] == 'Champion']['name'].to_list()
 
-## Takes in a valid card code and returns a pandas dataframe with 
+## Takes in a valid card code and returns a pandas dataframe with
 def buildFromCode(code):
 	data = get_dataframe()
 	deck = LoRDeck.from_deckcode(code)
@@ -93,6 +93,32 @@ def buildFromCode(code):
 			row = data.loc[data['cardCode'] == cardCode]
 			newDeck = newDeck.append(row, ignore_index=True)
 	return newDeck
+
+# Moving sqlite databse to mysql
+# for once we get MySql database set up
+# need:
+# 	- python -m pip install mysql-connector-python
+# 	- import mysql.connector
+def moveToMySQL():
+	# connecting to mysql database
+	hostName = x
+	userName = x
+	password = x
+
+
+	DB = mysql.connector.connect(
+	host = hostName,
+	user = userName,
+	password = password
+	)
+
+	c = DB.cursor()
+	c.execute("CREATE DATABASE cardData")
+
+	# from dbconvert.com
+	obj = ModelObject.objects.using('stattracker.db').all()
+	for o in obj:
+		o.save(using=DB)
 
 if __name__ == '__main__':
 	data = get_dataframe() # do not delete
