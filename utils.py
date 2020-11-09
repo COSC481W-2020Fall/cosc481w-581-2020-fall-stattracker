@@ -75,11 +75,59 @@ def getDeck(deckname):
 		c.execute("SELECT * FROM " + deckname)
 		return c.fetchall()
 
+# checks if user exists
+# if not adds them to database and returns true
+# if yes, returns false
+def createUser(name):
+	# create an connection
+	connection = sqlite3.connect('card_data/usersdecks.db')
+	c = connection.cursor()
+
+	with connection:
+		c.execute("SELECT count(*) FROM sqlite_master WHERE type='table' AND name='" + name + "'")
+		if c.fetchone()[0] == 1:
+			return True # user already exists
+		c.execute("CREATE TABLE IF NOT EXISTS " + name + " ('Deckname', 'Deckcode')")
+
+	return False # returns that it didn't exist
+
+# user = name of user
+# stats = deckname (from user), deckcode
+# ^^ is an array so it's easier if in the future we want to save more information about the user
+def addUserDeck(user, stats):
+	# create connection
+	connection = sqlite3.connect('card_data/usersdecks.db')
+	c = connection.cursor()
+	with connection:
+		c.execute("SELECT EXISTS (SELECT 1 FROM " + user + " WHERE Deckcode='" + stats[1] + "')")
+		existing = c.fetchone()[0]
+		if existing:
+			return True
+		else:
+			c.execute("INSERT INTO " + user + " VALUES(?, ?)", (stats[0], stats[1]))
+			c.close()
+
+	mastConnection = sqlite3.connect('card_data/stattracker.db')
+	c = mastConnection.cursor()
+	c.execute("CREATE TABLE IF NOT EXISTS " + stats[1] + " ('Win/Loss', 'Opponent Regions', 'Opponent Champs')")
+	c.close()
+	return False # used for display an error message
+
+# grabs the users deckname and corresponding deck codes
+def grabUsersDecks(user):
+	connection = sqlite3.connect('card_data/usersdecks.db')
+	c = connection.cursor()
+
+	with connection:
+		c.execute("SELECT Deckname, Deckcode FROM " + user)
+
+	return c.fetchall()
+
 def get_champs():
 	data = get_dataframe()
 	return data[data['rarity'] == 'Champion']['name'].to_list()
 
-## Takes in a valid card code and returns a pandas dataframe with 
+## Takes in a valid card code and returns a pandas dataframe with
 def buildFromCode(code):
 	data = get_dataframe()
 	deck = LoRDeck.from_deckcode(code)
