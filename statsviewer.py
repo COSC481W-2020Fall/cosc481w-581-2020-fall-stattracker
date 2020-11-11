@@ -17,16 +17,8 @@ def sv_home():
 
 	# get stats for first deck
 	df = pd.read_sql_query("select * from " + tableNames[0], cnx)
-<<<<<<< HEAD
 
 	return render_template('statsviewer/index.html', data=df.to_json(), name=tableNames[0])
-=======
-	print(df)
-	print("wins: " + str(count_wins(df)))
-	print("losses: " + str(count_losses(df)))
-
-	return render_template('statsviewer/index.html')
->>>>>>> inital stats and unit tests
 
 def count_wins(df):
 	count = 0
@@ -41,6 +33,3 @@ def count_losses(df):
 		if row == 'L':
 			count += 1
 	return count
-
-def win_avg(df):
-	return count_wins(df) / len(df.index)
