@@ -6,6 +6,7 @@ import pandas as pd
 import glob
 import os
 import numpy as np
+import sys
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -30,6 +31,9 @@ champs.append('None')
 def data_input():
 	if request.method == 'POST':
 		code = request.form['cardCode']
+		if code == "":
+			flash("Deckcode can not be empty!")
+			return redirect(request.url)
 		outcome = request.form['wl']
 		regions = request.form['region1']
 		if request.form['region'] not in regions:
@@ -37,13 +41,12 @@ def data_input():
 		# Adding the champions
 		strCh = " "
 		theChamps = " "
-		for x in range(6):
-			strCh = "champ" + str(x+1)
-			if request.form[strCh] != "None":
+		for key in request.form.keys():
+			if key.startswith("champ"):
 				if len(theChamps) == 1:
-					theChamps = request.form[strCh]
-				elif request.form[strCh] not in theChamps:
-					theChamps += " / " + request.form[strCh]
+					theChamps = request.form[key]
+				elif request.form[key] not in theChamps:
+					theChamps += " / " + request.form[key]
 		stats = [outcome, regions, theChamps]
 		addGameDB(code, stats)
 		if outcome == "Win":
@@ -225,4 +228,4 @@ def statsviewer():
 	return sv_home()
 
 if __name__ == '__main__':
-	app.run()
+	app.run(host = "0.0.0.0", port = 5000)

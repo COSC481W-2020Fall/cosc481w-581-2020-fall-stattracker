@@ -6,6 +6,7 @@ import sqlite3
 import glob
 import sqlalchemy
 from lor_deckcodes import LoRDeck, CardCodeAndCount
+import sys
 
 def get_dataframe():
 	files = glob.glob('card_data/*.json')

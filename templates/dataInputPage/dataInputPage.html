@@ -112,13 +112,13 @@
 
 					<h2>Select Opponent Champions</h2>
 
-					<h3>Champ 1</h3>
-					<select id="champ1" name="champ1" class="selectpicker form-control">
+					<h3>Champ</h3>
+					<select id="champ" name="champ" class="selectpicker form-control">
 						{% for item in champs %}
 						<option value="{{ item }}">{{ item }}</option>
 						{% endfor %}
 					</select>
-					<!-- <input type="button" id="btnClone" value="Clone">
+					<input type="button" id="btnClone" value="Clone">
 					<div id="container">
 					</div>
 					<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -144,8 +144,8 @@
 								$("#container").append("<br />");
 							});
 						});
-					</script> -->
-					<h3>Champ 2</h3>
+					</script>
+					<!-- <h3>Champ 2</h3>
 					<select id="champ2" name="champ2" class="selectpicker form-control">
 						{% for item in champs %}
 						<option value="{{ item }}">{{ item }}</option>
@@ -178,7 +178,7 @@
 						{% for item in champs %}
 						<option value="{{ item }}">{{ item }}</option>
 						{% endfor %}
-					</select>
+					</select> -->
 
 					<h2>Win / Loss</h2>
 					<select id="wl" name="wl" class="selectpicker form-control">
