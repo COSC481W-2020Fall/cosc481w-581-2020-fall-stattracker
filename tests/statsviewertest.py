@@ -7,15 +7,7 @@ SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 # end of fix
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 from statsviewer import count_wins, count_losses, win_avg
-=======
-from statsviewer import count_wins, count_losses
->>>>>>> inital stats and unit tests
-=======
-from statsviewer import count_wins, count_losses
->>>>>>> inital stats and unit tests
 import unittest
 import pandas as pd
 
@@ -38,14 +30,8 @@ class TestStatsMethods(unittest.TestCase):
 	def test_countlosses(self):
 		self.assertEqual(count_losses(self.df), 1)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 	def test_countavg(self):
 		self.assertEqual(win_avg(self.df), 2/3)
 
-=======
->>>>>>> inital stats and unit tests
-=======
->>>>>>> inital stats and unit tests
 if __name__ == '__main__':
 	unittest.main()
