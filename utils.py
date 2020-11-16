@@ -1,5 +1,6 @@
 import json
 import csv
+import mysql.connector as mysql
 import os
 import pandas as pd
 import sqlite3
@@ -24,6 +25,18 @@ def get_dataframe():
 	data['winrate'] = 0
 	data = data.reset_index(drop=True)
 	return data
+
+# as explained here: https://www.thepythoncode.com/article/connect-to-a-remote-mysql-server-in-python
+# Need:
+# pip3 install mysql-connector-python
+def connectMySQL(dbName, password):
+	HOST = "0.0.0.0"
+	# this is also known as the 'schema'
+	DATABASE = dbName # if we have more than one db, like 'users'
+	USER = "Admin"
+	PASSWORD = password
+	db_connection = mysql.connect(host=HOST, database=DATABASE, user=USER, password=PASSWORD)
+
 
 # Simple 'save csv file to the database'
 def importToDatabase(filename):
