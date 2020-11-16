@@ -45,7 +45,7 @@
 	</div>
 	<canvas id="chart"></canvas>
 	<script>
-		var json = JSON.parse('{{ data | tojson | safe }}');
+		var json = JSON.parse('{{ tableData | tojson | safe }}');
 		var deckname = '{{ name }}';
 		console.log(json, deckname);
 
@@ -74,9 +74,9 @@
 				data: {
 						labels: labels,
 						datasets: [{
-								label: deckname,
+								label: "",
 								borderColor: 'rgb(255, 99, 132)',
-								data: data
+								data: []
 						}]
 				},
 

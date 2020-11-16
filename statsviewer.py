@@ -1,6 +1,7 @@
 from flask import render_template
 import sqlite3
 import pandas as pd
+import json
 
 def sv_home():
 	avoidTables = ['set', 'API']
@@ -15,10 +16,21 @@ def sv_home():
 		if row['name'] not in avoidTables:
 			tableNames.append(row['name'])
 
-	# get stats for first deck
-	df = pd.read_sql_query("select * from " + tableNames[0], cnx)
+	# create dictonary of data
+	tableCollection = {}
+	for i in range(0, len(tableNames) - 1):
+		# query data from db by deck code
+		df = pd.read_sql_query("select * from " + tableNames[i], cnx)
+		# add deck code to data as a new column
+		df['deckCode'] = tableNames[i]
+		print(df)
+		# convert to json and add to dictionary
+		tableCollection[tableNames[i]] = df
+	
+	# convert dictionary to json
+	# todo: 
 
-	return render_template('statsviewer/index.html', data=df.to_json(), name=tableNames[0])
+	return render_template('statsviewer/index.html', tableData=tableCollectionJson)
 
 def count_wins(df):
 	count = 0
