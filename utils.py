@@ -143,6 +143,12 @@ def buildFromCode(code):
 
 	return newDeck
 
+## Creates a code from deck
+def exportCode(deck):
+	col = deck['count'].apply(int).apply(str) + ':' + deck['cardCode']
+	deck = LoRDeck(col.to_list())
+	return deck.encode()
+
 if __name__ == '__main__':
 	data = get_dataframe() # do not delete
 
@@ -150,3 +156,4 @@ if __name__ == '__main__':
 
 	deck = buildFromCode('CICACAYABYBAEBQFCYBAEAAGBEDQCAABBEFR2JJHGMBACAIACUAQEAAHAA')
 	print(deck)
+	print(exportCode(deck))
