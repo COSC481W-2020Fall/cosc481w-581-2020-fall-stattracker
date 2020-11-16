@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<div class="topnav">
-	<a href="home">Home</a>
-	<a href="deckbuilder">DeckBuilder</a>
-	<a href="datainput">DataInputPage</a>
-	<a href="gallery">CardGallery</a>
-	<a class="active" a href="statsviewer">Stats</a>
-	 </div>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Stats Viewer</title>
@@ -43,9 +36,16 @@
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 </head>
 <body>
+	<div class="topnav">
+		<a href="home">Home</a>
+		<a href="deckbuilder">DeckBuilder</a>
+		<a href="datainput">DataInputPage</a>
+		<a href="gallery">CardGallery</a>
+		<a class="active" a href="statsviewer">Stats</a>
+	</div>
 	<canvas id="chart"></canvas>
 	<script>
-		var json = JSON.parse({{ data | tojson | safe }});
+		var json = JSON.parse('{{ data | tojson | safe }}');
 		var deckname = '{{ name }}';
 		console.log(json, deckname);
 
