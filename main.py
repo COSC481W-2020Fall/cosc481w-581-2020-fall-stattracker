@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from utils import get_dataframe, get_champs, addGameDB, buildFromCode
+from utils import *
 from gallery import g_home
 from statsviewer import sv_home
 import pandas as pd
@@ -117,39 +117,6 @@ def deck_builder():
 			activeDeck = None
 
 		## Add card to deck
-		# if request.form.get('actions') == 'addCard':
-		# 	## Receive card id to add to deck
-		# 	cardID = request.form['cardID']
-		# 	row = dataFrame.loc[dataFrame['cardCode'] == cardID]
-		# 	row = row.reset_index(drop=True)
-		# 	row.loc[0, 'count'] = 1
-		# 	isChamp = row.loc[0, 'rarity'] == 'Champion'
-
-		# 	deckName = request.form['selectDeck']
-		# 	activeDeck = pd.read_csv(deckName)
-
-		# 	if cardID in list(activeDeck['cardCode']):
-		# 		numCopies = activeDeck[activeDeck['cardCode'] == cardID].loc[0,'count']
-		# 	else:
-		# 		numCopies = 0
-
-		# 	rarity = activeDeck['rarity'].value_counts()
-		# 	if 'Champion' in rarity:
-		# 		numChampions = rarity['Champion']
-		# 	else:
-		# 		numChampions = 0
-
-		# 	if len(activeDeck) < 40:
-		# 		if numCopies == 0:
-		# 			activeDeck = activeDeck.append(row, ignore_index=True)
-		# 			 # ((isChamp and numChampions < 6) or not isChamp)
-		# 		elif 0 < numCopies < 3:
-		# 			activeDeck.loc[activeDeck['cardCode'] == cardID, 'count'] += 1
-					 
-		# 	activeDeck.to_csv(deckName, index=False)
-		# 	activeDeck = activeDeck.to_html()
-
-		## Add card to deck
 		if request.form.get('actions') == 'addCard': ## Receive card id to add to deck
 			cardID = request.form['cardID']
 			row = dataFrame.loc[dataFrame['cardCode'] == cardID]
@@ -199,6 +166,16 @@ def deck_builder():
 
 			activeDeck.to_csv(deckName, index=False)
 			activeDeck = activeDeck.to_html()
+
+		## Export deck to code
+		if request.form.get('actions') == 'exportDeck':
+			deckName = request.form['selectDeck']
+			activeDeck = pd.read_csv(deckName)
+			code = exportCode(activeDeck)
+			activeDeck = activeDeck.to_html()
+			print(code)
+			flash(code)
+
 
 		## Renders webpage after post request
 		return render_template(
