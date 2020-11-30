@@ -139,8 +139,8 @@ def buildFromCode(code):
 	for i, card in enumerate(deck.cards):
 		row = data.loc[data['cardCode'] == card.card_code]
 		newDeck = newDeck.append(row, ignore_index=True)
-		newDeck.loc[i, 'count'] = card.count
-
+		newDeck.loc[i, 'count'] = int(card.count)
+	newDeck['count'] = newDeck['count'].astype(int)
 	return newDeck
 
 ## Creates a code from deck
