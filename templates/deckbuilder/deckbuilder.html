@@ -1,4 +1,4 @@
-{% extends 'deckbuilder/base.html' %}
+{% extends 'base.html' %}
 
 {% block head %}
 <div class="topnav">
@@ -20,6 +20,10 @@
 			text-align: center;
   }
 	table{
+		background-color: beige;
+		text-align: center;
+	}
+	h1 span{
 		background-color: beige;
 	}
 	/* Add a black background color to the top navigation */
@@ -49,8 +53,32 @@
   background-color: #ADD8E6;
   color: white;
 }
+.cardinfolink {
+			color: #00f;
+			text-decoration: underline;
+			cursor: pointer;
+		}
+		.hide {
+			display: none;
+		}
+		#cardinfomodal {
+			background-color: rgba(0,0,0,0.5);
+			position: fixed;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 1000;
+			padding: 30px 0;
+		}
+		#cardinfoiframe {
+			display: inline-block;
+			width: calc(100% - 60px);
+			height: calc(100% - 60px);
+		}
   
 </style>
+
 
 <div class="container">
 	<div class="container" style="min-height:100% width:80%">
@@ -64,10 +92,11 @@
 		{% endfor %}
 	  {% endif %}
 	{% endwith %}
-	
-	{% block body %}{% endblock %}
+{% endblock %}	
+{% block body %}
 	</div>
 	<!-- Div for all the user interactions with this page -->
+	<p><span>To build a valid deck you need your deck to have 40 cards and </span></p>
 	<div class="forms">
 		<h2>Available decks:</h2>
 		{{ decks }}
@@ -116,7 +145,7 @@
 	<!-- Div for displaying all data about cards -->
 	<div class="tables">
 		<div class="cards">
-			<h1>All cards</h1>
+			<h1><span>All cards</span></h1>
 			{{ cardList | safe }}
 		</div>
 		<div class="deck">
@@ -126,31 +155,6 @@
 	</div>
 
 	<!-- card info popup -->
-	<style>
-		.cardinfolink {
-			color: #00f;
-			text-decoration: underline;
-			cursor: pointer;
-		}
-		.hide {
-			display: none;
-		}
-		#cardinfomodal {
-			background-color: rgba(0,0,0,0.5);
-			position: fixed;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			z-index: 1000;
-			padding: 30px 0;
-		}
-		#cardinfoiframe {
-			display: inline-block;
-			width: calc(100% - 60px);
-			height: calc(100% - 60px);
-		}
-	</style>
 	<div id="cardinfomodal" class="hide">
 		<iframe id="cardinfoiframe"></iframe>
 	</div>

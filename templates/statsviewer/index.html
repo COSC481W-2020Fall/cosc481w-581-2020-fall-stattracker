@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block head %}
 <html lang="en">
 <head>
 <div class="topnav">
@@ -41,8 +43,8 @@
 		}
 	</style>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
-</head>
-<body>
+{% endblock %}
+{% block body %}
 	<canvas id="chart"></canvas>
 	<script>
 		var json = JSON.parse({{ data | tojson | safe }});
@@ -103,5 +105,5 @@
 				}
 		});
 	</script>
-</body>
+{% endblock %}
 </html>
