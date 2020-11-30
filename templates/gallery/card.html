@@ -1,5 +1,6 @@
-<!doctype html>
-<head>
+{% extends 'base.html' %}
+
+{% block head %}
 	<title>{{ name }}</title>
 	<style>
 		body {
@@ -26,8 +27,8 @@
 			display: none;
 		}
 	</style>
-</head>
-<body>
+{% endblock %}
+{% block body %}
 	<a href="/gallery" id="backlink">&lt; back</a>
 	<div class="tmid card">
 		<h1 class="center">{{ name }}</h1>
@@ -45,4 +46,4 @@
 			document.getElementById('backlink').classList.toggle('hide');
 		}
 	</script>
-</body>
+{% endblock %}

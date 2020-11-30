@@ -1,10 +1,11 @@
-<!doctype html>
-<head>
+{% extends 'base.html' %}
+
+{% block head %}
 <div class="topnav">
   <a href="home">Home</a>
   <a href="deckbuilder">DeckBuilder</a>
   <a href="datainput">DataInputPage</a>
-  <a class="active" a href="gallery">CardGallery</a>
+  <a class="active" href="gallery">CardGallery</a>
   <a href="statsviewer">Stats</a>
 </div>
 	<title>Card Gallery</title>
@@ -61,8 +62,8 @@
 		  color: white;
 		}
  </style>
-</head>
-<body>
+{% endblock %}
+{% block body %}
 	<input type="text" id="searchbar" onkeyup="search()" placeholder="Search for a card">
 	<table id="cardlist">
 		<tr>
@@ -107,4 +108,4 @@
 			}
 		}
 	</script>
-</body>
+{% endblock %}

@@ -1,8 +1,10 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block head %}
 <html>
 	<head>
 	<div class="topnav">
-		<a class="active" a href="home">Home</a>
+		<a class="active" href="home">Home</a>
 		<a href="deckbuilder">DeckBuilder</a>
 		<a href="datainput">DataInputPage</a>
 		<a href="gallery">CardGallery</a>
@@ -43,17 +45,17 @@
 		  background-color: #ADD8E6;
 		  color: white;
 		}
-		p{
+		p span{
 			background-color: #ADD8E6;
 		}
 	</style>
-	</head>
-<body>
+{% endblock %}
+{% block body %}
 	<h2 align="center">StatTracker</h2>
-	<p>To get started click any of the options on the navigation bar above.<br /> 
+	<p><span>To get started click any of the options on the navigation bar above.<br /> 
 		The deckbuilder button will take you to our deckbuilder page where you can start building decks with your favorite cards, or import one of the decks you already have made.<br />
 		The Data Input page is used to input the data for the decks that you are playing so that they can be sent to our database to get your stats for you. <br />
 		The Card Gallery is used so that you can look at any of the cards in the card game along with pictures and card values.<br />
-		The Stats Page is used to display the stats for your decks in a meaningful and readable way.</p>
-</body>
+		The Stats Page is used to display the stats for your decks in a meaningful and readable way.</span></p>
+{% endblock %}
 </html>

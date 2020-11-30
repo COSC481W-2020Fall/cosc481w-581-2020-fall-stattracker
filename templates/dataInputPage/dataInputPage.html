@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends 'base.html' %}
+
+{% block head %}
 <div class="topnav">
   <a href="home">Home</a>
   <a href="deckbuilder">DeckBuilder</a>
@@ -16,6 +16,12 @@
 			background-repeat: no-repeat;
 			background-attachment: fixed;
 			background-size: cover;
+		}
+		h2 span{
+			background-color: beige;
+		}
+		h3 span{
+			background-color: beige;
 		}
     .message {
 			background-color: hotpink;
@@ -60,12 +66,13 @@
 				(.message).fadeOut('fast');
 			}, 10000)
 		</script>
-<body>
+{% endblock %}
+{% block body %}
 	<div class="container">
 		<div class=row>
 			<!--form-->
 				<!-- Select a deck to view -->
-		    	<h2>Deck code</h2>
+		    	<h2><span>Deck code</span></h2>
 			<!-- 	<select id="deck" name="deck" class="selectpicker form-control">
 					{% for item in decks %}
 					<option value="{{ item }}">{{ item }}</option>
@@ -84,11 +91,10 @@
 
 					{% endif %}
 					{% endwith %}
-					{% block body %} {% endblock %}
 				<form method="POST">
 					<input type="text" id="cardCode" name="cardCode">
 
-					<h2>Select Opponent Regions</h2>
+					<h2><span>Select Opponent Regions</span></h2>
 					<select id="region1" name="region1" class="selectpicker form-control">
 						<option value="Demacia">Demacia</option>
 						<option value="Freljord">Freljord</option>
@@ -110,9 +116,9 @@
 						<option value="Bilgewater">Bilgewater</option>
 					</select>
 
-					<h2>Select Opponent Champions</h2>
+					<h2><span>Select Opponent Champions</span></h2>
 
-					<h3>Champ</h3>
+					<h3><span>Champ</span></h3>
 					<select id="champ" name="champ" class="selectpicker form-control">
 						{% for item in champs %}
 						<option value="{{ item }}">{{ item }}</option>
@@ -145,42 +151,7 @@
 							});
 						});
 					</script>
-					<!-- <h3>Champ 2</h3>
-					<select id="champ2" name="champ2" class="selectpicker form-control">
-						{% for item in champs %}
-						<option value="{{ item }}">{{ item }}</option>
-						{% endfor %}
-					</select>
-
-					<h3>Champ 3</h3>
-					<select id="champ3" name="champ3" class="selectpicker form-control">
-						{% for item in champs %}
-						<option value="{{ item }}">{{ item }}</option>
-						{% endfor %}
-					</select>
-
-					<h3>Champ 4</h3>
-					<select id="champ4" name="champ4" class="selectpicker form-control">
-						{% for item in champs %}
-						<option value="{{ item }}">{{ item }}</option>
-						{% endfor %}
-					</select>
-
-					<h3>Champ 5</h3>
-					<select id="champ5" name="champ5" class="selectpicker form-control">
-						{% for item in champs %}
-						<option value="{{ item }}">{{ item }}</option>
-						{% endfor %}
-					</select>
-
-					<h3>Champ 6</h3>
-					<select id="champ6" name="champ6" class="selectpicker form-control">
-						{% for item in champs %}
-						<option value="{{ item }}">{{ item }}</option>
-						{% endfor %}
-					</select> -->
-
-					<h2>Win / Loss</h2>
+					<h2><span>Win / Loss</span></h2>
 					<select id="wl" name="wl" class="selectpicker form-control">
 						<option value="Win">Win</option>
 						<option value="Loss">Loss</option>
@@ -190,5 +161,5 @@
 				</form>
 		</div>
 	</div>
-</body>
-</html>
+{% endblock %}
+
