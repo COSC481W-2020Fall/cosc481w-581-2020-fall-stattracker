@@ -58,6 +58,7 @@ def data_input():
 	return render_template(
 		'dataInputPage/dataInputPage.html',
 		decks=decks,
+		show=showDecks,
 		champs=champs)
 
 
@@ -65,9 +66,25 @@ def data_input():
 decks = glob.glob('decks/*.csv')
 dataFrame = get_dataframe()
 cardList = dataFrame.to_html()
+deckName = ""
+cardID = ""
+showDecks = ""
 
 @app.route('/deckbuilder', methods=['GET','POST'])
 def deck_builder():
+
+	showDecks = "HI"
+	if len(decks) == 0:
+		showDecks = "You have no decks!"
+	else:
+		showDecks = "[ || "
+		for d in decks:
+			temp = d.replace("decks", "")
+			temp = temp.replace(".csv", "")
+			temp = temp.replace("\\", "")
+			temp += " || "
+			showDecks += temp
+		showDecks += " ]"
 
 	if request.method == 'POST': ## Gets some input from page
 
@@ -77,6 +94,12 @@ def deck_builder():
 		if request.form.get('fromCode'):
 			deckName = request.form['deckName']
 			code = request.form['deckCode']
+			if code == "":
+				flash("You need to add a deck code!")
+				return redirect(request.url)
+			if deckName == "":
+				flash("You need to add a deck name!")
+				return redirect(request.url)
 			activeDeck = buildFromCode(code)
 			path = f'decks/{deckName}.csv'
 			activeDeck.to_csv(path)
@@ -89,6 +112,9 @@ def deck_builder():
 		## Create new deck
 		if not request.form.get('fromCode') and request.form.get('deckName'):
 			deckName = request.form['deckName']
+			if deckName == "":
+				flash("You need to add a deck name!")
+				return redirect(request.url)
 			## Save deck and add to list of available decks
 			columns = dataFrame.columns
 			activeDeck = pd.DataFrame(columns=dataFrame.columns)
@@ -119,6 +145,9 @@ def deck_builder():
 		## Add card to deck
 		if request.form.get('actions') == 'addCard': ## Receive card id to add to deck
 			cardID = request.form['cardID']
+			if cardID == "":
+				flash("That is not a viable card code!")
+				return redirect(request.url)
 			row = dataFrame.loc[dataFrame['cardCode'] == cardID]
 			row = row.reset_index(drop=True)
 			row.loc[0, 'count'] = 1
@@ -153,6 +182,9 @@ def deck_builder():
 
 		## Delete card
 		if request.form.get('actions') == 'deleteCard':
+			if request.form['cardID'] == "":
+				flash("That is not a viable card code!")
+				return redirect(request.url)
 			cardIDDelete = request.form['cardID']
 			deckName = request.form['selectDeck']
 			activeDeck = pd.read_csv(deckName)
@@ -183,7 +215,8 @@ def deck_builder():
 			deckName=deckName,
 			cardList=cardList,
 			activeDeck=activeDeck,
-			decks=decks)
+			decks=decks,
+			show=showDecks)
 
 	## Initial page request
 	elif request.method == 'GET':
@@ -192,7 +225,8 @@ def deck_builder():
 			deckName=None,
 			cardList=cardList,
 			activeDeck=None,
-			decks=decks)
+			decks=decks,
+			show=showDecks)
 ## End code for deckbuilder
 
 @app.route('/gallery')
