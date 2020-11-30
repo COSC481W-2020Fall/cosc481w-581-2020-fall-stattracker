@@ -74,19 +74,20 @@ def deck_builder():
 		if request.form.get('Home'): ## Redirect to home page
 			return redirect('/')
 
+		## Create new deck from code
 		if request.form.get('fromCode'):
 			deckName = request.form['deckName']
 			code = request.form['deckCode']
 			activeDeck = buildFromCode(code)
 			path = f'decks/{deckName}.csv'
-			activeDeck.to_csv(path)
+			activeDeck.to_csv(path, index=False)
 			if path not in decks:
 				decks.append(path)
 				activeDeck = activeDeck.to_html()
 			elif path in decks or not deckName:
 				activeDeck = None
 
-		## Create new deck
+		## Create new empty deck
 		if not request.form.get('fromCode') and request.form.get('deckName'):
 			deckName = request.form['deckName']
 			## Save deck and add to list of available decks
@@ -94,7 +95,7 @@ def deck_builder():
 			activeDeck = pd.DataFrame(columns=dataFrame.columns)
 			activeDeck['count'] = None
 			path = f'decks/{deckName}.csv'
-			activeDeck.to_csv(path)
+			activeDeck.to_csv(path, index=False)
 			if path not in decks:
 				decks.append(path)
 				activeDeck = activeDeck.to_html()
@@ -148,6 +149,7 @@ def deck_builder():
 			elif not isChamp and numCopies < 3 and len(activeDeck) < 40:
 				activeDeck.loc[activeDeck['cardCode'] == cardID, 'count'] += 1
 
+			activeDeck['count'] = activeDeck['count'].astype(int)
 			activeDeck.to_csv(deckName, index=False)
 			activeDeck = activeDeck.to_html()
 

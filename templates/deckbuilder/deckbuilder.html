@@ -123,8 +123,8 @@
 				{% endfor %}
 			</select>
 			<script>
-				var lastVal = $('#selectDeck option:last').val();
-				$('#selectDeck').val(lastVal);
+				var lastDeck = $('#selectDeck option:last').val();
+				$('#selectDeck').val(lastDeck);
 			</script>
 
 			<h2>Select action</h2>
@@ -136,6 +136,10 @@
 		        <option value="deleteDeck">Delete deck</option>
 		        <option value="exportDeck">Export deck</option>
 	      	</select>
+	      	<script>
+				var lastAction = $('#actions option:last').val();
+				$('#action').val(lastAction);
+			</script>
 
 			<label>Card ID:<input type="text" name="cardID"></label>
 	    	<button type="submit" class="btn btn-default">Execute action</button>
