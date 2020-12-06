@@ -142,12 +142,17 @@ def deck_builder():
 				numCopies = 0
 				numChampions = 0
 
-			if numCopies == 0:
-				activeDeck = activeDeck.append(row, ignore_index=True)
-			elif isChamp and numCopies < 3 and numChampions < 5 and len(activeDeck) < 40:
-				activeDeck.loc[activeDeck['cardCode'] == cardID, 'count'] += 1
-			elif not isChamp and numCopies < 3 and len(activeDeck) < 40:
-				activeDeck.loc[activeDeck['cardCode'] == cardID, 'count'] += 1
+			isValid = False
+			if cardID in list(dataFrame['cardCode']):
+				isValid = True
+
+			if isValid:
+				if numCopies == 0:
+					activeDeck = activeDeck.append(row, ignore_index=True)
+				elif isChamp and numCopies < 3 and numChampions < 5 and len(activeDeck) < 40:
+					activeDeck.loc[activeDeck['cardCode'] == cardID, 'count'] += 1
+				elif not isChamp and numCopies < 3 and len(activeDeck) < 40:
+					activeDeck.loc[activeDeck['cardCode'] == cardID, 'count'] += 1
 
 			activeDeck['count'] = activeDeck['count'].astype(int)
 			activeDeck.to_csv(deckName, index=False)
