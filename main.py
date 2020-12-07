@@ -34,6 +34,14 @@ def data_input():
 		if code == "":
 			flash("Deckcode can not be empty!")
 			return redirect(request.url)
+		else:
+			isValid = False
+			try:
+				deck = LoRDeck.from_deckcode(code)
+				isValid = True
+			except:
+				pass
+		print(isValid)
 		outcome = request.form['wl']
 		regions = request.form['region1']
 		if request.form['region'] not in regions:
@@ -49,11 +57,15 @@ def data_input():
 					theChamps += " / " + request.form[key]
 		stats = [outcome, regions, theChamps]
 		addGameDB(code, stats)
-		if outcome == "Win":
-			flash("Congratulations on your victory!")
-			return redirect(request.url)
+		if isValid:
+			if outcome == "Win":
+				flash("Congratulations on your victory!")
+				return redirect(request.url)
+			else:
+				flash("Better luck next time...")
+				return redirect(request.url)
 		else:
-			flash("Better luck next time...")
+			flash("Invalid Deckcode!")
 			return redirect(request.url)
 	return render_template(
 		'dataInputPage/dataInputPage.html',
@@ -64,6 +76,7 @@ def data_input():
 ## Start code for deckbuilder
 decks = glob.glob('decks/*.csv')
 dataFrame = get_dataframe()
+dataFrame = dataFrame.sort_values(['region','rarity'], ignore_index = True)
 cardList = dataFrame.to_html()
 
 @app.route('/deckbuilder', methods=['GET','POST'])
