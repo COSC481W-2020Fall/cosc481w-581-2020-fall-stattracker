@@ -78,6 +78,11 @@ decks = glob.glob('decks/*.csv')
 dataFrame = get_dataframe()
 dataFrame = dataFrame.sort_values(['region','rarity'], ignore_index = True)
 cardList = dataFrame.to_html()
+"""for d in dataFrame:
+	cardList.append(d) """
+
+searchCard = []
+deckName = " "
 
 @app.route('/deckbuilder', methods=['GET','POST'])
 def deck_builder():
@@ -86,6 +91,11 @@ def deck_builder():
 
 		if request.form.get('Home'): ## Redirect to home page
 			return redirect('/')
+
+		if request.form.get('findCard'): ## Searches for card
+			for x in cardList:
+				if x == request.form['findCard']:
+					return x
 
 		## Create new deck from code
 		if request.form.get('fromCode'):
@@ -198,7 +208,8 @@ def deck_builder():
 			deckName=deckName,
 			cardList=cardList,
 			activeDeck=activeDeck,
-			decks=decks)
+			decks=decks,
+			searchCard=searchCard)
 
 	## Initial page request
 	elif request.method == 'GET':
@@ -207,7 +218,8 @@ def deck_builder():
 			deckName=None,
 			cardList=cardList,
 			activeDeck=None,
-			decks=decks)
+			decks=decks,
+			searchCard=searchCard)
 ## End code for deckbuilder
 
 @app.route('/gallery')

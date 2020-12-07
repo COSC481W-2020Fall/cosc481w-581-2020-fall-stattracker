@@ -79,7 +79,7 @@
 			width: calc(100% - 60px);
 			height: calc(100% - 60px);
 		}
-  
+
 </style>
 
 
@@ -95,7 +95,7 @@
 		{% endfor %}
 	  {% endif %}
 	{% endwith %}
-{% endblock %}	
+{% endblock %}
 {% block body %}
 	</div>
 	<!-- Div for all the user interactions with this page -->
@@ -156,9 +156,19 @@
 	</div>
 
 	<!-- Div for displaying all data about cards -->
+  <form method="POST">
+    Search for a card: <input type="text" name="findCard"> <button type="submit" class="btn btn-default"> Search </button>
+    <p> {{ searchCard | safe }} </p>
+  </form>
 	<div class="tables">
 		<div class="cards">
 			<h1><span>All cards</span></h1>
+      { % for card in cardList % }
+      <tr>
+        {{ card }} <button type="submit"> Add </button> <button type="submit"> Delete </button>
+      </tr>
+      <br>
+      { % endfor % }
 			{{ cardList | safe }}
 		</div>
 		<div class="deck">
