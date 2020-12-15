@@ -1,6 +1,7 @@
 from flask import render_template
 import sqlite3
 import pandas as pd
+from lor_deckcodes import LoRDeck, CardCodeAndCount
 
 def sv_home():
 	avoidTables = ['set', 'API']
@@ -9,16 +10,34 @@ def sv_home():
 	cnx = sqlite3.connect("card_data/stattracker.db")
 	df = pd.read_sql_query("select name from sqlite_master where type = 'table'", cnx)
 
-	# extract table names
-	tableNames = []
+	# extract deck names
+	deckNames = []
 	for index, row in df.iterrows():
 		if row['name'] not in avoidTables:
-			tableNames.append(row['name'])
+			deckNames.append(row['name'])
+	
+	framesToConcat = []
+	for i in range(len(deckNames)):
 
-	# get stats for first deck
-	df = pd.read_sql_query("select * from " + tableNames[0], cnx)
+		# get stats for deck
+		unnamedDf = pd.read_sql_query("select * from " + deckNames[i], cnx)
 
-	return render_template('statsviewer/index.html', data=df.to_json(), name=tableNames[0])
+		# add deck name to data
+		# https://stackoverflow.com/a/53236864/13157180
+		nameCol = []
+		for j in range(len(unnamedDf.index)):
+			nameCol.append(deckNames[i])
+		nameDf = pd.DataFrame(nameCol, columns=['Deck Name'])
+		unnamedDf.append(nameDf)
+
+		# add frames to array
+		framesToConcat.append(pd.concat([unnamedDf, nameDf], axis=1))
+
+	# make df out of array
+	deckData = pd.concat(framesToConcat)
+	deckData.reset_index(drop=True, inplace=True) # reset indexes
+
+	return render_template('statsviewer/index.html', data=deckData.to_json())
 
 def count_wins(df):
 	count = 0
