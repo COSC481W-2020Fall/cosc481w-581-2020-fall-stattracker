@@ -37,7 +37,21 @@ def sv_home():
 	deckData = pd.concat(framesToConcat)
 	deckData.reset_index(drop=True, inplace=True) # reset indexes
 
-	return render_template('statsviewer/index.html', data=deckData.to_json())
+	# make df of cards in each deck
+	CardDataCardCode = []
+	CardDataDeckCode = []
+	for deckName in deckNames:
+		try:
+			deck = LoRDeck.from_deckcode(deckName)
+			for card in deck.cards:
+				CardDataCardCode.append(str(card)[2:]) # trim quantity
+				CardDataDeckCode.append(deckName)
+		except ValueError:
+			# Invalid deck code, skip
+			pass
+	cardData = pd.DataFrame(data={'Deck Name':CardDataDeckCode, 'Card Code':CardDataCardCode})
+
+	return render_template('statsviewer/index.html', deckData=deckData.to_json(), cardData=cardData.to_json())
 
 def count_wins(df):
 	count = 0
