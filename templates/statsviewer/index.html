@@ -81,9 +81,121 @@
 		<canvas id="chart"></canvas>
 	</div>
 	<script>
+		// eslint-disable-next-line
 		var deckData = JSON.parse({{ deckData | tojson | safe }});
 		var cardData = JSON.parse({{ cardData | tojson | safe }});
-		console.log(deckData);
-		console.log(cardData);
+		// console.log('json', deckData, cardData);
+
+		//* tracking wins per deck
+		var winTrackChartDatasets = [];
+		var winTrackChartLabels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+		class dataset {
+			data = [];
+			constructor(label) {
+				this.label = label;
+			}
+			push(x) {
+				this.data.push(x);
+			}
+			last() {
+				return this.data[this.data.length - 1];
+			}
+			getData() {
+				return this.data;
+			}
+			json() {
+				var x = {
+					label: this.label,
+					backgroundColor: 'rgba(0,0,0,0)',
+					borderColor: 'rgb('+Math.floor(Math.random() * 256)+', '+Math.floor(Math.random() * 256)+', '+Math.floor(Math.random() * 256)+')',
+					data: this.data
+				}
+				return x;
+			}
+		}
+		
+		var lastDeckParsed = null;
+		var deckParsed = null;
+		for (var i in deckData["Deck Name"]) {
+			if (deckData["Deck Name"][i] != lastDeckParsed) {
+				// push last deck
+				if (lastDeckParsed != null) {
+					console.log(deckParsed);
+					winTrackChartDatasets.push(deckParsed.json());
+				}
+
+				// start new deck object
+				deckParsed = new dataset(deckData["Deck Name"][i]);
+				switch (deckData["Win/Loss"][i]) {
+					case 'W':
+					case 'Win':
+						deckParsed.push(1);
+						break;
+					default:
+						deckParsed.push(0);
+				}
+
+				lastDeckParsed = deckData["Deck Name"][i];
+			}
+			else {
+				var x = deckParsed.data[deckParsed.data.length - 1];
+				switch (deckData["Win/Loss"][i]) {
+					case 'W':
+					case 'Win':
+						deckParsed.push(x + 1);
+						break;
+					default:
+						deckParsed.push(x);
+				}
+			}
+
+			if (deckParsed.getData().length > winTrackChartLabels[winTrackChartLabels.length - 1]) {
+				winTrackChartLabels.push(winTrackChartLabels.length);
+			}
+		}
+		
+		console.log(winTrackChartDatasets);
+
+		var ctx = document.getElementById('chart').getContext('2d');
+		var chart = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: winTrackChartLabels,
+				datasets: winTrackChartDatasets
+			},
+			options: {
+				title: {
+					display: true,
+					text: 'Wins per deck'
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Games Played'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Wins Recorded'
+						}
+					}]
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: true,
+				},
+				legend: {
+					display: false
+				},
+				animation: {
+					duration: 0
+				}
+			}
+		}); 
 	</script>
 {% endblock %}
